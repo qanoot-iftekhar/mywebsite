@@ -1,0 +1,329 @@
+/* Size Guide Page Styles */
+.size-guide-page {
+    padding: 60px 0;
+    background: #fff;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.page-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #1a1a1a;
+}
+
+.page-header p {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+/* Size Chart Section */
+.size-chart-section {
+    margin-bottom: 80px;
+}
+
+.size-chart-section h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #1a1a1a;
+}
+
+.chart-container {
+    overflow-x: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.size-chart {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.size-chart thead {
+    background: #1a1a1a;
+    color: white;
+}
+
+.size-chart th {
+    padding: 20px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.size-chart td {
+    padding: 18px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    font-size: 1rem;
+}
+
+.size-chart tbody tr:hover {
+    background: #f9f9f9;
+}
+
+.size-chart tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Measurement Section */
+.measure-section {
+    margin-bottom: 80px;
+}
+
+.measure-section h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 40px;
+    color: #1a1a1a;
+    text-align: center;
+}
+
+.measure-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.measure-step {
+    background: #f9f9f9;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.measure-step:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.step-number {
+    width: 60px;
+    height: 60px;
+    background: #1a1a1a;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 auto 20px;
+}
+
+.measure-step h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #1a1a1a;
+}
+
+.measure-step p {
+    color: #666;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.measure-image {
+    background: #f9f9f9;
+    padding: 40px;
+    border-radius: 12px;
+}
+
+/* Fit Guide Section */
+.fit-guide-section {
+    margin-bottom: 80px;
+}
+
+.fit-guide-section h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 40px;
+    color: #1a1a1a;
+    text-align: center;
+}
+
+.fit-types {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.fit-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px;
+    border-radius: 16px;
+    transition: transform 0.3s ease;
+}
+
+.fit-card:nth-child(2) {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.fit-card:nth-child(3) {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.fit-card:hover {
+    transform: translateY(-8px);
+}
+
+.fit-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.fit-card p {
+    font-size: 1rem;
+    line-height: 1.7;
+    opacity: 0.95;
+}
+
+/* Tips Section */
+.tips-section {
+    margin-bottom: 80px;
+}
+
+.tips-section h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #1a1a1a;
+    text-align: center;
+}
+
+.tips-list {
+    max-width: 800px;
+    margin: 0 auto;
+    list-style: none;
+    padding: 0;
+}
+
+.tips-list li {
+    padding: 20px;
+    padding-left: 60px;
+    position: relative;
+    font-size: 1.05rem;
+    color: #333;
+    line-height: 1.7;
+    margin-bottom: 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+.tips-list li:before {
+    content: "✓";
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #27ae60;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* CTA Section */
+.guide-cta {
+    text-align: center;
+    padding: 60px 0;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 16px 40px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: #1a1a1a;
+    color: white;
+    border: 2px solid #1a1a1a;
+}
+
+.btn-primary:hover {
+    background: #333;
+    border-color: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary {
+    background: white;
+    color: #1a1a1a;
+    border: 2px solid #1a1a1a;
+}
+
+.btn-secondary:hover {
+    background: #f5f5f5;
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .size-guide-page {
+        padding: 40px 0;
+    }
+
+    .page-header h1 {
+        font-size: 2rem;
+    }
+
+    .size-chart-section h2,
+    .measure-section h2,
+    .fit-guide-section h2,
+    .tips-section h2 {
+        font-size: 1.6rem;
+    }
+
+    .measure-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .fit-types {
+        grid-template-columns: 1fr;
+    }
+
+    .guide-cta {
+        flex-direction: column;
+        padding: 40px 0;
+    }
+
+    .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media print {
+    .guide-cta {
+        display: none;
+    }
+}

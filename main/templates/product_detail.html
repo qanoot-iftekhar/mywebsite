@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/product-detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb -->
+<div class="breadcrumb">
+    <div class="container">
+        <a href="{% url 'home' %}">Home</a>
+        <span>/</span>
+        <a href="{% url 'products' %}">Products</a>
+        <span>/</span>
+        <span>{{ product.name }}</span>
+    </div>
+</div>
+
+<!-- Product Detail -->
+<section class="product-detail">
+    <div class="container">
+        <input type="hidden" id="product-id" value="{{ product.id }}">
+
+        <div class="product-detail-grid">
+            <!-- Product Images -->
+            <div class="product-images">
+                <div class="main-image">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" id="mainProductImage">
+                    {% else %}
+                    <img src="{% static 'images/shoe-1.jpg' %}" alt="{{ product.name }}" id="mainProductImage">
+                    {% endif %}
+                </div>
+                <div class="thumbnail-images" id="thumbnailContainer">
+                    {% if product.images.all %}
+                    {% for img in product.images.all %}
+                    <img src="{{ img.image.url }}" alt="{{ img.alt_text }}"
+                        class="thumbnail {% if forloop.first %}active{% endif %}" onclick="changeMainImage(this)"
+                        data-order="{{ img.order }}">
+                    {% endfor %}
+                    {% else %}
+                    <!-- Fallback if no additional images -->
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="thumbnail active"
+                        onclick="changeMainImage(this)">
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="product-info">
+                <h1 class="product-title">{{ product.name }}</h1>
+
+                <div class="product-rating">
+                    <div class="stars">
+                        {% for i in "12345" %}
+                        {% if forloop.counter <= product.rating %} <i class="fas fa-star"></i>
+                            {% else %}
+                            <i class="far fa-star"></i>
+                            {% endif %}
+                            {% endfor %}
+                    </div>
+                    <span class="rating-count">({{ product.rating }}/5)</span>
+                </div>
+
+                <div class="product-price">${{ product.price }}</div>
+
+                <p class="product-description">{{ product.description }}</p>
+
+                <!-- Color Selection -->
+                <div class="variant-section">
+                    <label class="variant-label">
+                        Color: <span id="selectedColorName">Select a color</span>
+                    </label>
+                    <div class="color-options" id="colorOptions">
+                        {% for color in available_colors %}
+                        <div class="color-option" data-color="{{ color }}"
+                            onclick="selectColor('{{ color }}', '{{ color|title }}')" title="{{ color|title }}">
+                            <div class="color-swatch color-{{ color }}"></div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Size Selection -->
+                <div class="variant-section">
+                    <label class="variant-label">
+                        Size: <span id="selectedSizeName">Select a size</span>
+                        <a href="{% url 'size_guide' %}" target="_blank" class="size-guide-link">Size Guide</a>
+                    </label>
+                    <div class="size-options" id="sizeOptions">
+                        <!-- Will be populated by JavaScript based on color selection -->
+                    </div>
+                    <div id="stockMessage" class="stock-message"></div>
+                </div>
+
+                <!-- Product Specifications -->
+                {% if product.material or product.sole_type %}
+                <div class="product-specs">
+                    <h3>Specifications</h3>
+                    <ul>
+                        {% if product.material %}
+                        <li><strong>Material:</strong> {{ product.material }}</li>
+                        {% endif %}
+                        {% if product.sole_type %}
+                        <li><strong>Sole:</strong> {{ product.sole_type }}</li>
+                        {% endif %}
+                        {% if product.weight %}
+                        <li><strong>Weight:</strong> {{ product.weight }}</li>
+                        {% endif %}
+                        {% if product.is_water_resistant %}
+                        <li><strong>Water Resistant:</strong> Yes</li>
+                        {% endif %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <!-- Care Instructions -->
+                {% if product.care_instructions %}
+                <div class="care-instructions">
+                    <h3>Care Instructions</h3>
+                    <p>{{ product.care_instructions }}</p>
+                </div>
+                {% endif %}
+
+                <!-- Add to Cart -->
+                <div class="product-actions">
+                    <button class="btn btn-primary btn-add-to-cart" onclick="addToCart()" id="addToCartBtn" disabled>
+                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    <button class="btn btn-secondary btn-wishlist" onclick="toggleWishlist()">
+                        <i class="{% if is_in_wishlist %}fas{% else %}far{% endif %} fa-heart"
+                            style="{% if is_in_wishlist %}color: #e74c3c;{% endif %}"></i>
+                    </button>
+                </div>
+
+                <!-- Delivery Info -->
+                <div class="delivery-info">
+                    <div class="info-item">
+                        <i class="fas fa-truck"></i>
+                        <span>Free shipping on orders over $75</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-undo"></i>
+                        <span>15-day easy returns</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>1-year warranty</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Hidden data for JavaScript -->
+<script id="variantData" type="application/json">
+    {{ variants_json|safe }}
+</script>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/product-detail.js' %}"></script>
+{% endblock %}

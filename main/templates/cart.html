@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/cart.css">
+<link rel="stylesheet" href="/static/css/checkout.css">
+{% endblock %}
+
+{% block content %}
+<section class="cart-section">
+    <div class="container">
+        <!-- Cart Header -->
+        <div class="cart-header">
+            <h2>Cart ({{ cart_items|length }})</h2>
+            <button class="cart-close-btn" onclick="window.history.back()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Free Shipping Progress -->
+        <div class="shipping-progress">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%;"></div>
+            </div>
+            <p class="progress-text">Spend $75 more to earn free shipping!</p>
+        </div>
+
+        <div class="cart-container">
+            {% if cart_items %}
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center;">
+                                <div class="cart-item-img"
+                                    style="background-color: #f8f8f8; display: flex; align-items: center; justify-content: center;">
+                                    {% if item.product.image %}
+                                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}"
+                                        style="max-width: 100%; max-height: 100%;">
+                                    {% else %}
+                                    <i class="fas fa-ring" style="font-size: 2rem; color: var(--primary);"></i>
+                                    {% endif %}
+                                </div>
+                                <div style="margin-left: 15px;">
+                                    <h4>{{ item.product.name }}</h4>
+                                    <p style="color: #666; font-size: 0.9rem;">{{ item.product.category.name }}</p>
+                                    {% if item.size or item.color %}
+                                    <div class="cart-item-variants"
+                                        style="margin-top: 5px; font-size: 0.85rem; color: #666;">
+                                        {% if item.color %}
+                                        <span style="margin-right: 10px;">Color: {{ item.color|title }}</span>
+                                        {% endif %}
+                                        {% if item.size %}
+                                        <span>Size: UK {{ item.size }}</span>
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </td>
+                        <td>${{ item.product.price }}</td>
+                        <td>
+                            <div class="quantity-selector">
+                                <button type="button" class="quantity-btn qty-decrease"
+                                    data-product-id="{{ item.product.id }}" data-quantity="{{ item.quantity }}"
+                                    data-size="{{ item.size|default:'' }}"
+                                    data-color="{{ item.color|default:'' }}">-</button>
+                                <input type="text" id="qty-{{ item.product.id }}-{{ item.size }}-{{ item.color }}"
+                                    class="quantity-input" value="{{ item.quantity }}" readonly>
+                                <button type="button" class="quantity-btn qty-increase"
+                                    data-product-id="{{ item.product.id }}" data-quantity="{{ item.quantity }}"
+                                    data-size="{{ item.size|default:'' }}"
+                                    data-color="{{ item.color|default:'' }}">+</button>
+                            </div>
+                        </td>
+                        <td>${{ item.total_price }}</td>
+                        <td>
+                            <button type="button" class="remove-cart-item" data-product-id="{{ item.product.id }}"
+                                data-size="{{ item.size|default:'' }}" data-color="{{ item.color|default:'' }}"
+                                style="border: none; background: none; cursor: pointer;">
+                                <i class="fas fa-trash" style="color: #e74c3c;"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Coupon Section -->
+            <div class="coupon-section" style="margin: 30px 0; padding: 20px; background: #f9f9f9; border-radius: 8px;">
+                <h3 style="margin: 0 0 15px; font-size: 1.1rem;">Have a Coupon Code?</h3>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="couponCode" placeholder="Enter coupon code"
+                        style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95rem;">
+                    <button onclick="applyCoupon()" class="btn"
+                        style="padding: 12px 30px; background: #1a1a1a; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">
+                        APPLY
+                    </button>
+                </div>
+                <div id="couponMessage" style="margin-top: 10px; font-size: 0.9rem;"></div>
+            </div>
+
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span>${{ total }}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping</span>
+                    <span>$25.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax</span>
+                    <span>$0.00</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Total</span>
+                    <span>${{ total }}</span>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <a href="{% url 'products' %}" class="btn btn-secondary"
+                        style="flex: 1; text-align: center; padding: 15px; background: white; color: #1a1a1a; border: 2px solid #1a1a1a; text-decoration: none; border-radius: 4px; font-weight: 600;">
+                        CONTINUE SHOPPING
+                    </a>
+                    <a href="{% url 'checkout' %}" class="btn btn-primary"
+                        style="flex: 1; text-align: center; padding: 15px; background: #1a1a1a; color: white; border: 2px solid #1a1a1a; text-decoration: none; border-radius: 4px; font-weight: 600;">
+                        PROCEED TO CHECKOUT
+                    </a>
+                </div>
+            </div>
+            {% else %}
+            <!-- Empty Cart State -->
+            <div class="empty-cart">
+                <h3>Your cart is empty. Start shopping!</h3>
+
+                <div class="empty-cart-buttons">
+                    <a href="{% url 'products' %}?category=women" class="empty-cart-btn">SHOP WOMENS</a>
+                    <a href="{% url 'products' %}?category=men" class="empty-cart-btn">SHOP MENS</a>
+                    <a href="{% url 'products' %}?category=rings" class="empty-cart-btn">SHOP RINGS</a>
+                    <a href="{% url 'products' %}?category=women&sale=true" class="empty-cart-btn">SHOP WOMEN'S SALE</a>
+                    <a href="{% url 'products' %}?category=men&sale=true" class="empty-cart-btn">SHOP MEN'S SALE</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/cart.js"></script>
+{% endblock %}

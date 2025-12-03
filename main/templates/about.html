@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/policy-pages.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="about-page">
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="about-hero">
+            <h1>About Us</h1>
+            <p class="hero-subtitle">Crafting comfort, one step at a time</p>
+        </div>
+
+        <!-- Our Story -->
+        <section class="about-section">
+            <div class="section-content">
+                <h2>Our Story</h2>
+                <p>Founded in 2020, we set out with a simple mission: to create footwear that feels as good as it looks.
+                    We believe that comfort shouldn't come at the cost of style, and sustainability should be at the
+                    heart of everything we do.</p>
+                <p>What started as a small workshop has grown into a brand trusted by thousands of customers worldwide.
+                    Every pair of shoes we create is a testament to our commitment to quality, comfort, and conscious
+                    manufacturing.</p>
+            </div>
+        </section>
+
+        <!-- Our Values -->
+        <section class="values-section">
+            <h2>Our Values</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <i class="fas fa-leaf"></i>
+                    <h3>Sustainability</h3>
+                    <p>We use eco-friendly materials and sustainable manufacturing processes to minimize our
+                        environmental impact.</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-heart"></i>
+                    <h3>Comfort First</h3>
+                    <p>Every design prioritizes your comfort, with ergonomic features and premium materials that feel
+                        amazing all day long.</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-gem"></i>
+                    <h3>Quality Craftsmanship</h3>
+                    <p>Each pair is carefully crafted with attention to detail, ensuring durability and timeless style.
+                    </p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Community</h3>
+                    <p>We're more than a brand—we're a community of people who believe in mindful living and conscious
+                        choices.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Process -->
+        <section class="process-section">
+            <h2>How We Make Our Shoes</h2>
+            <div class="process-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Design</h3>
+                        <p>Our designers create shoes that blend style, comfort, and functionality. Every detail is
+                            considered, from materials to ergonomics.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Sustainable Materials</h3>
+                        <p>We source eco-friendly materials like organic cotton, recycled polyester, and natural rubber
+                            from ethical suppliers.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-hammer"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Crafting</h3>
+                        <p>Skilled artisans handcraft each pair with precision and care, ensuring the highest quality
+                            standards.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Quality Control</h3>
+                        <p>Every shoe undergoes rigorous testing to ensure it meets our standards for comfort,
+                            durability, and style.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">50K+</div>
+                    <div class="stat-label">Happy Customers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">Shoe Styles</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">25+</div>
+                    <div class="stat-label">Countries Shipped</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4.8★</div>
+                    <div class="stat-label">Average Rating</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sustainability -->
+        <section class="sustainability-section">
+            <h2>Our Commitment to the Planet</h2>
+            <div class="sustainability-grid">
+                <div class="sustainability-card">
+                    <h3>Carbon Neutral Shipping</h3>
+                    <p>We offset 100% of our shipping emissions through verified carbon offset programs.</p>
+                </div>
+                <div class="sustainability-card">
+                    <h3>Recycled Materials</h3>
+                    <p>Our packaging is made from 90% recycled materials and is fully recyclable.</p>
+                </div>
+                <div class="sustainability-card">
+                    <h3>Water Conservation</h3>
+                    <p>Our manufacturing process uses 60% less water than traditional shoe production.</p>
+                </div>
+                <div class="sustainability-card">
+                    <h3>Recycling Program</h3>
+                    <p>Send back your old shoes for recycling and get a discount on your next purchase.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <div class="about-cta">
+            <h2>Ready to Experience the Difference?</h2>
+            <p>Join thousands of happy customers who've made the switch to comfort and sustainability.</p>
+            <a href="{% url 'products' %}" class="btn btn-primary">Shop Now</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

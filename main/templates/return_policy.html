@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/policy-pages.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="policy-page">
+    <div class="container">
+        <!-- Header -->
+        <div class="page-header">
+            <h1>Return & Exchange Policy</h1>
+            <p>We want you to love your purchase. If you're not completely satisfied, we're here to help.</p>
+        </div>
+
+        <!-- Quick Summary -->
+        <div class="policy-summary">
+            <div class="summary-card">
+                <i class="fas fa-calendar-alt"></i>
+                <h3>15-Day Return Window</h3>
+                <p>Return items within 15 days of delivery</p>
+            </div>
+            <div class="summary-card">
+                <i class="fas fa-exchange-alt"></i>
+                <h3>Free Size Exchange</h3>
+                <p>Exchange for different size at no cost</p>
+            </div>
+            <div class="summary-card">
+                <i class="fas fa-undo"></i>
+                <h3>Easy Process</h3>
+                <p>Simple return request through your account</p>
+            </div>
+            <div class="summary-card">
+                <i class="fas fa-shipping-fast"></i>
+                <h3>Fast Refunds</h3>
+                <p>Refund processed within 5-7 business days</p>
+            </div>
+        </div>
+
+        <!-- Return Policy Details -->
+        <section class="policy-section">
+            <h2>Return Policy</h2>
+            <div class="policy-content">
+                <h3>What can be returned?</h3>
+                <ul>
+                    <li>Products must be unused and in original condition</li>
+                    <li>Original packaging and tags must be intact</li>
+                    <li>Shoes should show no signs of wear or damage</li>
+                    <li>All accessories and documentation must be included</li>
+                </ul>
+
+                <h3>What cannot be returned?</h3>
+                <ul class="exclude-list">
+                    <li>Items purchased during final sale or clearance</li>
+                    <li>Products that have been worn outdoors</li>
+                    <li>Items with missing tags or packaging</li>
+                    <li>Customized or personalized products</li>
+                </ul>
+
+                <h3>Return Window</h3>
+                <p>You have <strong>15 days</strong> from the date of delivery to initiate a return. Returns requested
+                    after this period cannot be accepted.</p>
+            </div>
+        </section>
+
+        <!-- Exchange Policy -->
+        <section class="policy-section">
+            <h2>Exchange Policy</h2>
+            <div class="policy-content">
+                <h3>Size Exchange</h3>
+                <p>If the size doesn't fit perfectly, we offer <strong>free size exchanges</strong> within 15 days of
+                    delivery.</p>
+
+                <ul>
+                    <li>Exchange for any available size of the same product</li>
+                    <li>No additional shipping charges for size exchanges</li>
+                    <li>One free exchange per order</li>
+                    <li>Product must be unworn and in original condition</li>
+                </ul>
+
+                <h3>Color/Style Exchange</h3>
+                <p>Want a different color or style? You can exchange your product, but shipping charges may apply. The
+                    product must be unused and in original packaging.</p>
+            </div>
+        </section>
+
+        <!-- How to Return/Exchange -->
+        <section class="policy-section">
+            <h2>How to Return or Exchange</h2>
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Login to Your Account</h3>
+                    <p>Go to "My Orders" in your account dashboard and select the order you want to return or exchange.
+                    </p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Request Return/Exchange</h3>
+                    <p>Click on "Return" or "Exchange" button, select the reason, and choose your preferred resolution.
+                    </p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Pack Your Item</h3>
+                    <p>Place the item in its original packaging with all tags and accessories. Use the return label
+                        we'll email you.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Ship It Back</h3>
+                    <p>Drop off your package at the nearest courier location. You'll receive tracking information via
+                        email.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">5</div>
+                    <h3>Get Your Refund/Exchange</h3>
+                    <p>Once we receive and inspect your return, we'll process your refund within 5-7 business days or
+                        ship your exchange.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Refund Details -->
+        <section class="policy-section">
+            <h2>Refund Information</h2>
+            <div class="policy-content">
+                <h3>Refund Method</h3>
+                <p>Refunds will be credited to your original payment method:</p>
+                <ul>
+                    <li><strong>Credit/Debit Card:</strong> 5-7 business days</li>
+                    <li><strong>Bank Transfer:</strong> 7-10 business days</li>
+                    <li><strong>Digital Wallet:</strong> 3-5 business days</li>
+                </ul>
+
+                <h3>Shipping Charges</h3>
+                <p>Original shipping charges are non-refundable unless the return is due to our error (wrong item,
+                    defective product, etc.).</p>
+            </div>
+        </section>
+
+        <!-- Contact Support -->
+        <section class="contact-support">
+            <h2>Need Help?</h2>
+            <p>If you have any questions about returns or exchanges, our customer support team is here to assist you.
+            </p>
+            <div class="support-options">
+                <div class="support-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email Us</h3>
+                    <p><a href="mailto:returns@example.com">returns@example.com</a></p>
+                </div>
+                <div class="support-card">
+                    <i class="fas fa-phone"></i>
+                    <h3>Call Us</h3>
+                    <p><a href="tel:1-800-RETURNS">1-800-RETURNS</a></p>
+                </div>
+                <div class="support-card">
+                    <i class="fas fa-comments"></i>
+                    <h3>Live Chat</h3>
+                    <p>Available Mon-Fri, 9AM-6PM</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <div class="page-cta">
+            <a href="{% url 'products' %}" class="btn btn-primary">Continue Shopping</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

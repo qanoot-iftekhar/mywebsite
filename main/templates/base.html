@@ -1,0 +1,369 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="The world's most comfortable shoes, made with natural materials. Sustainable footwear and apparel.">
+    <title>{% block title %}project - Comfortable, Sustainable Shoes & Apparel{% endblock %}</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <div class="announcement-content">
+            <p>Monday Sale! Up to 50% off. <a href="{% url 'products' %}?category=men">Shop Men</a> <a
+                    href="{% url 'products' %}?category=women">Shop Women</a></p>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="navbar-container">
+                <!-- Logo -->
+                <a href="{% url 'home' %}" class="logo">PROJECT</a>
+
+                <!-- Main Navigation -->
+                <ul class="nav-menu">
+                    <li class="nav-item has-mega-menu">
+                        <a href="{% url 'products' %}?category=men" class="nav-link">MEN</a>
+                        <!-- Men's Mega Menu -->
+                        <div class="mega-menu">
+                            <div class="mega-menu-container">
+                                <div class="mega-menu-column">
+                                    <h3><a href="{% url 'products' %}?category=men">Men's Shoes</a></h3>
+                                    <ul>
+                                        <li><a href="{% url 'products' %}?category=men">Shop All</a></li>
+                                        <li><a href="{% url 'products' %}?category=men&type=sneakers">Sneakers</a></li>
+                                        <li><a href="{% url 'products' %}?category=men&type=all-weather">All-Weather</a>
+                                        </li>
+                                        <li><a href="{% url 'products' %}?category=men&type=slippers">Slippers</a></li>
+                                        <li><a href="{% url 'products' %}?category=men&type=slip-ons">Slip Ons</a></li>
+                                        <li><a href="{% url 'products' %}?category=men&type=high-tops">High Tops</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <h3>Customer Favorites</h3>
+                                    <ul>
+                                        <li><a href="{% url 'products' %}">Tree Dasher 2</a></li>
+                                        <li><a href="{% url 'products' %}">Wool Runner NZ</a></li>
+                                        <li><a href="{% url 'products' %}">Tree Runner</a></li>
+                                        <li><a href="{% url 'products' %}">Wool Cruiser</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <h3>Top Add-Ons</h3>
+                                    <ul>
+                                        <li><a href="{% url 'products' %}?category=socks">Socks</a></li>
+                                        <li><a href="{% url 'products' %}?category=apparel">Apparel</a></li>
+                                        <li><a href="{% url 'products' %}?category=bags">Bags</a></li>
+                                        <li><a href="#">Gift Cards</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <h3><a href="{% url 'products' %}?category=socks">Socks</a></h3>
+                                    <ul>
+                                        <li><a href="{% url 'products' %}?category=socks&type=no-show">No Show</a></li>
+                                        <li><a href="{% url 'products' %}?category=socks&type=ankle">Ankle</a></li>
+                                        <li><a href="{% url 'products' %}?category=socks&type=crew">Crew</a></li>
+                                        <li><a href="{% url 'products' %}?category=socks">All Socks</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item has-mega-menu">
+                        <a href="{% url 'products' %}?category=women" class="nav-link">WOMEN</a>
+                        <!-- Women's Mega Menu -->
+                        <div class="mega-menu">
+                            <div class="mega-menu-container">
+                                <div class="mega-menu-column">
+                                    <h3><a href="{% url 'products' %}?category=women">Women's Shoes</a></h3>
+                                    <ul>
+                                        <li><a href="{% url 'products' %}?category=women">Shop All</a></li>
+                                        <li><a href="{% url 'products' %}?category=women&type=sneakers">Sneakers</a>
+                                        </li>
+                                        <li><a
+                                                href="{% url 'products' %}?category=women&type=all-weather">All-Weather</a>
+                                        </li>
+                                        <li><a href="{% url 'products' %}?category=women&type=slippers">Slippers</a>
+                                        </li>
+                                        <li><a href="{% url 'products' %}?category=women&type=slip-ons">Slip Ons</a>
+                                        </li>
+                                        <li><a href="{% url 'products' %}?category=women&type=flats">Flats</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <h3>Popular Picks</h3>
+                                    <ul>
+                                        <li><a href="{% url 'products' %}">Tree Dasher 2</a></li>
+                                        <li><a href="{% url 'products' %}">Wool Runner NZ</a></li>
+                                        <li><a href="{% url 'products' %}">Tree Flyer</a></li>
+                                        <li><a href="{% url 'products' %}">Wool Cruiser</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <h3>Favorite Add-Ons</h3>
+                                    <ul>
+                                        <li><a href="{% url 'products' %}?category=socks">Socks</a></li>
+                                        <li><a href="{% url 'products' %}?category=apparel">Apparel</a></li>
+                                        <li><a href="{% url 'products' %}?category=bags">Bags</a></li>
+                                        <li><a href="#">Gift Cards</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <h3><a href="{% url 'products' %}?category=apparel">Apparel</a></h3>
+                                    <ul>
+                                        <li><a href="{% url 'products' %}?category=apparel&type=tees">Tees</a></li>
+                                        <li><a href="{% url 'products' %}?category=apparel&type=sweats">Sweats</a></li>
+                                        <li><a href="{% url 'products' %}?category=apparel&sale=true">Sale</a></li>
+                                        <li><a href="{% url 'products' %}?category=apparel">All Apparel</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item has-mega-menu">
+                        <a href="{% url 'products' %}?category=sale" class="nav-link">SALE</a>
+                        <!-- Sale's Mega Menu -->
+                        <div class="mega-menu">
+                            <div class="mega-menu-container">
+                                <div class="mega-menu-column">
+                                    <h3><a href="{% url 'products' %}?category=sale">Women's Shoes</a></h3>
+                                    <ul>
+                                        <li><a href="{% url 'products' %}?category=sale">Shop All</a></li>
+                                        <li><a href="{% url 'products' %}?category=sale&type=sneakers">Sneakers</a>
+                                        </li>
+                                        <li><a
+                                                href="{% url 'products' %}?category=sale&type=all-weather">All-Weather</a>
+                                        </li>
+                                        <li><a href="{% url 'products' %}?category=sale&type=slippers">Slippers</a>
+                                        </li>
+                                        <li><a href="{% url 'products' %}?category=sale&type=slip-ons">Slip Ons</a>
+                                        </li>
+                                        <li><a href="{% url 'products' %}?category=sale&type=flats">Flats</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <h3>Popular Picks</h3>
+                                    <ul>
+                                        <li><a href="{% url 'products' %}">Tree Dasher 2</a></li>
+                                        <li><a href="{% url 'products' %}">Wool Runner NZ</a></li>
+                                        <li><a href="{% url 'products' %}">Tree Flyer</a></li>
+                                        <li><a href="{% url 'products' %}">Wool Cruiser</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <h3>Favorite Add-Ons</h3>
+                                    <ul>
+                                        <li><a href="{% url 'products' %}?category=socks">Socks</a></li>
+                                        <li><a href="{% url 'products' %}?category=apparel">Apparel</a></li>
+                                        <li><a href="{% url 'products' %}?category=bags">Bags</a></li>
+                                        <li><a href="#">Gift Cards</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-menu-column">
+                                    <h3><a href="{% url 'products' %}?category=apparel">Apparel</a></h3>
+                                    <ul>
+                                        <li><a href="{% url 'products' %}?category=apparel&type=tees">Tees</a></li>
+                                        <li><a href="{% url 'products' %}?category=apparel&type=sweats">Sweats</a></li>
+                                        <li><a href="{% url 'products' %}?category=apparel&sale=true">Sale</a></li>
+                                        <li><a href="{% url 'products' %}?category=apparel">All Apparel</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <!-- Right Side Icons -->
+                <div class="nav-icons">
+                    <button class="icon-btn search-btn" aria-label="Search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}" class="icon-btn" aria-label="Account">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <a href="{% url 'logout' %}" class="icon-btn" aria-label="Logout" title="Logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="icon-btn" aria-label="Login">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    {% endif %}
+                    <button class="icon-btn cart-btn" id="openCartBtn" aria-label="Shopping Cart">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search for products..." id="searchInput">
+            <button class="search-close" id="closeSearchBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+    </div>
+
+    <!-- Cart Side Panel -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-panel" id="cartPanel">
+        <div class="cart-panel-header">
+            <h2>CART (<span class="cart-item-count">0</span>)</h2>
+            <button class="cart-panel-close" id="closeCartBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="cart-shipping-progress">
+            <p class="shipping-text">Spend $75 more to earn free shipping!</p>
+            <div class="shipping-progress-bar">
+                <div class="shipping-progress-fill" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <div class="cart-panel-content">
+            <!-- Empty Cart State -->
+            <div class="cart-empty-state" id="cartEmptyState">
+                <h3>Your cart is empty. Start shopping!</h3>
+                <div class="cart-category-buttons">
+                    <a href="{% url 'products' %}?category=women" class="cart-category-btn">SHOP WOMEN'S</a>
+                    <a href="{% url 'products' %}?category=men" class="cart-category-btn">SHOP MEN'S</a>
+                    <a href="{% url 'products' %}?category=socks" class="cart-category-btn">SHOP SOCKS</a>
+                </div>
+            </div>
+
+            <!-- Cart Items (when not empty) -->
+            <div class="cart-items" id="cartItems" style="display: none;">
+                <!-- Cart items will be dynamically added here -->
+            </div>
+        </div>
+
+        <div class="cart-panel-footer" id="cartFooter" style="display: none;">
+            <div class="cart-subtotal">
+                <span>Subtotal</span>
+                <span class="subtotal-amount">$0.00</span>
+            </div>
+            <a href="{% url 'cart' %}" class="btn btn-primary btn-block">VIEW CART</a>
+            <a href="{% url 'checkout' %}" class="btn btn-secondary btn-block">CHECKOUT</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Newsletter Section -->
+            <div class="footer-newsletter">
+                <h3>Want first dibs?</h3>
+                <p>Join our email list and be the first to know about new limited edition products, material
+                    innovations, and lots of other fun updates.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter Your Email Address" required>
+                    <button type="submit" class="btn-newsletter">SIGN UP</button>
+                </form>
+                <p class="newsletter-note">Note: You can opt-out at any time. See our <a href="#">Privacy Policy</a> and
+                    <a href="#">Terms</a>.
+                </p>
+            </div>
+
+            <!-- Footer Links -->
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>HELP</h4>
+                    <ul>
+                        <li><a href="#">9966923410</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="{% url 'profile' %}">My Account</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Returns/Exchanges</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>SHOP</h4>
+                    <ul>
+                        <li><a href="{% url 'products' %}?category=men">Men's Shoes</a></li>
+                        <li><a href="{% url 'products' %}?category=women">Women's Shoes</a></li>
+                        <li><a href="{% url 'products' %}?category=men&type=apparel">Men's Apparel</a></li>
+                        <li><a href="{% url 'products' %}?category=women&type=apparel">Women's Apparel</a></li>
+                        <li><a href="{% url 'products' %}?category=socks">Socks</a></li>
+                        <li><a href="#">Gift Cards</a></li>
+                        <li><a href="#">ReRun</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>COMPANY</h4>
+                    <ul>
+                        <li><a href="#">Our Stores</a></li>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Our Materials</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">Affiliates</a></li>
+                        <li><a href="#">Bulk Orders</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>FOLLOW THE FLOCK</h4>
+                    <div class="social-links">
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p>&copy; 2026 Qanots, Inc. All Rights Reserved. <a href="#">Terms</a> | <a href="#">Privacy</a> | <a
+                        href="#">Accessibility</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/app.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

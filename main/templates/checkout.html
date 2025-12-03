@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/checkout.css">
+{% endblock %}
+
+{% block content %}
+<section class="checkout-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Checkout</h2>
+            <p>Complete your purchase</p>
+        </div>
+
+        <div class="checkout-container">
+            <div class="checkout-form">
+                <form method="POST" action="{% url 'checkout' %}">
+                    {% csrf_token %}
+                    <h3>Shipping Information</h3>
+
+                    {% if addresses %}
+                    <!-- Saved Addresses Dropdown -->
+                    <div class="form-group"
+                        style="margin-bottom: 25px; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e0e0e0;">
+                        <label for="savedAddress" style="font-weight: 600; margin-bottom: 10px; display: block;">
+                            <i class="fas fa-map-marker-alt"></i> Use Saved Address
+                        </label>
+                        <select id="savedAddress" class="form-control" onchange="fillAddressForm(this.value)"
+                            style="cursor: pointer;">
+                            <option value="">-- Select a saved address --</option>
+                            {% for address in addresses %}
+                            <option value="{{ address.id }}" data-name="{{ address.name }}"
+                                data-phone="{{ address.phone }}" data-address="{{ address.address_line1 }}"
+                                data-city="{{ address.city }}" data-state="{{ address.state }}"
+                                data-zip="{{ address.zip_code }}">
+                                {{ address.name }} - {{ address.address_line1 }}, {{ address.city }}
+                                {% if address.is_default %}<strong>(Default)</strong>{% endif %}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <small style="color: #666; margin-top: 5px; display: block;">
+                            <i class="fas fa-info-circle"></i> Or fill the form manually below
+                        </small>
+                    </div>
+                    {% endif %}
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" name="first_name" id="firstName" class="form-control" placeholder="John"
+                                required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" name="last_name" id="lastName" class="form-control" placeholder="Doe"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" name="email" id="email" class="form-control"
+                            placeholder="john.doe@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" name="phone" id="phone" class="form-control" placeholder="+1 234 567 8900"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Street Address</label>
+                        <input type="text" name="address" id="address" class="form-control" placeholder="123 Main St"
+                            required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" name="city" id="city" class="form-control" placeholder="New York"
+                                required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <input type="text" name="state" id="state" class="form-control" placeholder="NY" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="zip">ZIP Code</label>
+                            <input type="text" name="zip_code" id="zip" class="form-control" placeholder="10001"
+                                required>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 40px;">Payment Method</h3>
+
+                    <div class="payment-methods">
+                        <div class="payment-option active" onclick="selectPayment(this, 'credit-card')">
+                            <div class="payment-icon">
+                                <i class="far fa-credit-card"></i>
+                            </div>
+                            <div>
+                                <h4>Credit Card</h4>
+                                <p>Pay with Visa, Mastercard, or American Express</p>
+                            </div>
+                        </div>
+
+                        <div class="payment-option" onclick="selectPayment(this, 'bank-transfer')">
+                            <div class="payment-icon">
+                                <i class="fas fa-university"></i>
+                            </div>
+                            <div>
+                                <h4>Bank Transfer</h4>
+                                <p>Direct transfer to our bank account</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="payment_method" id="paymentMethod" value="credit-card">
+
+                    <!-- Credit Card Form -->
+                    <div id="credit-card-form">
+                        <div class="form-row" style="margin-top: 30px;">
+                            <div class="form-group">
+                                <label for="cardNumber">Card Number</label>
+                                <input type="text" id="cardNumber" class="form-control"
+                                    placeholder="1234 5678 9012 3456">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cardName">Name on Card</label>
+                                <input type="text" id="cardName" class="form-control" placeholder="John Doe">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="expiry">Expiry Date</label>
+                                <input type="text" id="expiry" class="form-control" placeholder="MM/YY">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cvv">CVV</label>
+                                <input type="text" id="cvv" class="form-control" placeholder="123">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bank Transfer Details -->
+                    <div id="bank-transfer-details"
+                        style="display: none; margin-top: 30px; background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #e0e0e0;">
+                        <h4 style="margin-bottom: 15px; color: #212a2f;">Bank Account Details</h4>
+                        <p style="margin-bottom: 10px;">Please transfer the total amount to the following account:</p>
+                        <div style="background: white; padding: 15px; border-radius: 4px; border: 1px solid #eee;">
+                            <p><strong>Account Name:</strong> Qanoot</p>
+                            <p><strong>Account Number:</strong> 976767767866</p>
+                            <p><strong>IFSC Code:</strong> jsdvsahsd657667</p>
+                        </div>
+                        <p style="margin-top: 15px; font-size: 0.9em; color: #666;">Your order will be processed once
+                            the payment is received.</p>
+                    </div>
+
+                    <button type="submit" class="btn" style="width: 100%; text-align: center; margin-top: 30px;">Place
+                        Order</button>
+                </form>
+            </div>
+
+            <div class="checkout-summary">
+                <h3>Order Summary</h3>
+
+                {% for item in cart_items %}
+                <div class="summary-row">
+                    <span>{{ item.product.name }} (x{{ item.quantity }})</span>
+                    <span>${{ item.subtotal }}</span>
+                </div>
+                {% endfor %}
+
+                <div class="summary-row summary-total">
+                    <span>Total</span>
+                    <span>${{ total }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Fill form with saved address data
+    function fillAddressForm(addressId) {
+        if (!addressId) return;
+
+        const select = document.getElementById('savedAddress');
+        const option = select.options[select.selectedIndex];
+
+        // Get data from selected option
+        const fullName = option.dataset.name;
+        const phone = option.dataset.phone;
+        const address = option.dataset.address;
+        const city = option.dataset.city;
+        const state = option.dataset.state;
+        const zip = option.dataset.zip;
+
+        // Split full name into first and last
+        const nameParts = fullName.split(' ');
+        const firstName = nameParts[0] || '';
+        const lastName = nameParts.slice(1).join(' ') || '';
+
+        // Fill form fields
+        document.getElementById('firstName').value = firstName;
+        document.getElementById('lastName').value = lastName;
+        document.getElementById('phone').value = phone;
+        document.getElementById('address').value = address;
+        document.getElementById('city').value = city;
+        document.getElementById('state').value = state;
+        document.getElementById('zip').value = zip;
+    }
+
+    function selectPayment(element, method) {
+        // Update active class
+        const paymentOptions = document.querySelectorAll('.payment-option');
+        paymentOptions.forEach(option => {
+            option.classList.remove('active');
+        });
+        element.classList.add('active');
+
+        // Update hidden input
+        document.getElementById('paymentMethod').value = method;
+
+        // Toggle forms
+        const creditCardForm = document.getElementById('credit-card-form');
+        const bankDetails = document.getElementById('bank-transfer-details');
+
+        if (method === 'bank-transfer') {
+            creditCardForm.style.display = 'none';
+            bankDetails.style.display = 'block';
+
+            // Remove required from card inputs
+            document.getElementById('cardNumber').removeAttribute('required');
+            document.getElementById('cardName').removeAttribute('required');
+            document.getElementById('expiry').removeAttribute('required');
+            document.getElementById('cvv').removeAttribute('required');
+        } else {
+            creditCardForm.style.display = 'block';
+            bankDetails.style.display = 'none';
+        }
+    }
+</script>
+{% endblock %}

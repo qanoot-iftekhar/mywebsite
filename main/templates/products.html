@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/products.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb -->
+<div class="breadcrumb">
+    <div class="container">
+        <a href="{% url 'home' %}">Home</a>
+        <span>/</span>
+        <span>{% if request.GET.category %}{{ request.GET.category|title }}{% else %}All Products{% endif %}</span>
+    </div>
+</div>
+
+<!-- Products Page -->
+<div class="products-page">
+    <div class="container">
+        <!-- Page Header -->
+        <div class="products-header">
+            <h1>{% if request.GET.category %}{{ request.GET.category|title }}'s Shoes{% else %}All Products{% endif %}
+            </h1>
+            <p class="products-count"><span id="product-count">Loading...</span> items</p>
+        </div>
+
+        <!-- Active Filters (required by JS) -->
+        <div id="active-filters" style="margin-bottom: 1rem;"></div>
+
+        <!-- Filters & Products -->
+        <div class="products-layout">
+            <!-- Sidebar Filters -->
+            <aside class="products-sidebar">
+                <!-- Category List (required by JS) -->
+                <div class="filter-section">
+                    <h3>Category</h3>
+                    <ul id="category-list" class="filter-options">
+                        <!-- JS will populate this -->
+                    </ul>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Type</h3>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="type" value="sneakers">
+                            <span>Sneakers</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="type" value="slip-ons">
+                            <span>Slip Ons</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="type" value="all-weather">
+                            <span>All-Weather</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="type" value="slippers">
+                            <span>Slippers</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Size</h3>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="size" value="6">
+                            <span>UK 6</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="size" value="7">
+                            <span>UK 7</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="size" value="8">
+                            <span>UK 8</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="size" value="9">
+                            <span>UK 9</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="size" value="10">
+                            <span>UK 10</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="size" value="11">
+                            <span>UK 11</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="size" value="12">
+                            <span>UK 12</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Color</h3>
+                    <div class="filter-options">
+                        <label class="filter-option">
+                            <input type="checkbox" name="color" value="black">
+                            <span>Black</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="color" value="white">
+                            <span>White</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="color" value="brown">
+                            <span>Brown</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="color" value="navy">
+                            <span>Navy Blue</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="color" value="grey">
+                            <span>Grey</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="color" value="beige">
+                            <span>Beige</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="color" value="red">
+                            <span>Red</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="color" value="blue">
+                            <span>Blue</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="color" value="green">
+                            <span>Green</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3>Price Range</h3>
+                    <div class="filter-options">
+                        <div style="margin-bottom: 0.5rem;">
+                            <label>Min: $<input type="number" id="min-price" placeholder="0"
+                                    style="width: 60px;"></label>
+                        </div>
+                        <div style="margin-bottom: 0.5rem;">
+                            <label>Max: $<input type="number" id="max-price" placeholder="999"
+                                    style="width: 60px;"></label>
+                        </div>
+                        <button id="apply-price" class="btn btn-sm">Apply</button>
+                    </div>
+                </div>
+
+                <button class="btn-clear-filters" id="clear-filters">Clear All Filters</button>
+            </aside>
+
+            <!-- Products Grid -->
+            <main class="products-main">
+                <!-- Sort Controls -->
+                <div class="products-controls">
+                    <select id="sort-select" class="sort-select">
+                        <option value="-created_at">Newest First</option>
+                        <option value="price">Price: Low to High</option>
+                        <option value="-price">Price: High to Low</option>
+                        <option value="name">Name: A-Z</option>
+                    </select>
+                </div>
+
+                <!-- Loading State -->
+                <div class="loading-spinner" id="loadingSpinner" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Loading products...</p>
+                </div>
+
+                <!-- Product Grid -->
+                <div class="product-grid" id="product-grid">
+                    <!-- Products will be loaded here via JavaScript -->
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <i class="fas fa-search"></i>
+                    <h3>No products found</h3>
+                    <p>Try adjusting your filters or search terms</p>
+                    <button class="btn btn-primary" id="resetFilters">Reset Filters</button>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination" id="pagination">
+                    <!-- Pagination will be loaded here -->
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/products.js' %}"></script>
+{% endblock %}

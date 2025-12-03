@@ -1,0 +1,319 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-page">
+    <div class="container">
+        <div class="profile-header">
+            <h1>My Account</h1>
+            <p>Manage your profile, orders, and preferences</p>
+        </div>
+
+        <div class="profile-grid">
+            <!-- Sidebar Navigation -->
+            <div class="profile-sidebar">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h3>{{ user.get_full_name|default:user.username }}</h3>
+                    <p>{{ user.email }}</p>
+                </div>
+
+                <nav class="profile-nav">
+                    <a href="#profile-details" class="nav-item active" data-tab="profile-details">
+                        <i class="fas fa-user"></i> Profile Details
+                    </a>
+                    <a href="#change-password" class="nav-item" data-tab="change-password">
+                        <i class="fas fa-lock"></i> Change Password
+                    </a>
+                    <a href="#order-history" class="nav-item" data-tab="order-history">
+                        <i class="fas fa-box"></i> Order History
+                    </a>
+                    <a href="#saved-addresses" class="nav-item" data-tab="saved-addresses">
+                        <i class="fas fa-map-marker-alt"></i> Saved Addresses
+                    </a>
+                    <a href="#wishlist" class="nav-item" data-tab="wishlist">
+                        <i class="fas fa-heart"></i> Wishlist
+                    </a>
+                    <a href="{% url 'logout' %}" class="nav-item logout">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Main Content -->
+            <div class="profile-content">
+                <!-- Profile Details Tab -->
+                <div id="profile-details" class="tab-content active">
+                    <h2>Profile Details</h2>
+                    <form method="POST" action="{% url 'profile' %}" class="profile-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="profile">
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first_name">First Name</label>
+                                <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last_name">Last Name</label>
+                                <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" value="{{ user.email }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" value="{{ user.username }}" readonly>
+                            <small>Username cannot be changed</small>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </form>
+                </div>
+
+                <!-- Change Password Tab -->
+                <div id="change-password" class="tab-content">
+                    <h2>Change Password</h2>
+                    <form method="POST" action="{% url 'profile' %}" class="profile-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="password">
+
+                        <div class="form-group">
+                            <label for="current_password">Current Password</label>
+                            <input type="password" id="current_password" name="current_password" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="new_password1">New Password</label>
+                            <input type="password" id="new_password1" name="new_password1" required>
+                            <small>Must be at least 8 characters long</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="new_password2">Confirm New Password</label>
+                            <input type="password" id="new_password2" name="new_password2" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Change Password</button>
+                    </form>
+                </div>
+
+                <!-- Order History Tab -->
+                <div id="order-history" class="tab-content">
+                    <h2>Order History</h2>
+                    {% if orders %}
+                    <div class="orders-list">
+                        {% for order in orders %}
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div>
+                                    <h3>Order #{{ order.order_number }}</h3>
+                                    <p class="order-date">{{ order.created_at|date:"F d, Y" }}</p>
+                                </div>
+                                <div class="order-status status-{{ order.status }}">
+                                    {{ order.get_status_display }}
+                                </div>
+                            </div>
+                            <div class="order-body">
+                                <div class="order-items">
+                                    {% for item in order.orderitem_set.all|slice:":3" %}
+                                    <span class="item-badge">{{ item.product.name }}</span>
+                                    {% endfor %}
+                                    {% if order.orderitem_set.count > 3 %}
+                                    <span class="item-badge">+{{ order.orderitem_set.count|add:"-3" }} more</span>
+                                    {% endif %}
+                                </div>
+                                <div class="order-actions">
+                                    <span class="order-total">${{ order.total_amount }}</span>
+                                    <a href="{% url 'order_success' order.id %}" class="btn btn-sm">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-box-open"></i>
+                        <h3>No Orders Yet</h3>
+                        <p>Start shopping to see your orders here!</p>
+                        <a href="{% url 'products' %}" class="btn btn-primary">Browse Products</a>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Saved Addresses Tab -->
+                <div id="saved-addresses" class="tab-content">
+                    <h2>Saved Addresses</h2>
+
+                    <!-- Add New Address Button -->
+                    <button class="btn btn-primary"
+                        onclick="document.getElementById('add-address-form').style.display = 'block'"
+                        style="margin-bottom: 20px;">
+                        <i class="fas fa-plus"></i> Add New Address
+                    </button>
+
+                    <!-- Add Address Form (Hidden by default) -->
+                    <div id="add-address-form"
+                        style="display: none; margin-bottom: 30px; background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #eee;">
+                        <h3 style="margin-bottom: 20px;">Add New Address</h3>
+                        <form method="POST" action="{% url 'profile' %}" class="profile-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_type" value="add_address">
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="name">Full Name</label>
+                                    <input type="text" id="name" name="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="text" id="phone" name="phone" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address_line1">Address Line 1</label>
+                                <input type="text" id="address_line1" name="address_line1" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address_line2">Address Line 2 (Optional)</label>
+                                <input type="text" id="address_line2" name="address_line2">
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="city">City</label>
+                                    <input type="text" id="city" name="city" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="state">State</label>
+                                    <input type="text" id="state" name="state" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="zip_code">Zip Code</label>
+                                    <input type="text" id="zip_code" name="zip_code" required>
+                                </div>
+                                <div class="form-group" style="display: flex; align-items: center; margin-top: 30px;">
+                                    <input type="checkbox" id="is_default" name="is_default"
+                                        style="width: auto; margin-right: 10px;">
+                                    <label for="is_default" style="margin: 0; cursor: pointer;">Set as default
+                                        address</label>
+                                </div>
+                            </div>
+
+                            <div class="form-actions" style="display: flex; gap: 10px;">
+                                <button type="submit" class="btn btn-primary">Save Address</button>
+                                <button type="button" class="btn btn-secondary"
+                                    onclick="document.getElementById('add-address-form').style.display = 'none'">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Address List -->
+                    {% if addresses %}
+                    <div class="address-grid">
+                        {% for address in addresses %}
+                        <div class="address-card {% if address.is_default %}default-address{% endif %}">
+                            {% if address.is_default %}
+                            <span class="default-badge">Default</span>
+                            {% endif %}
+                            <h3>{{ address.name }}</h3>
+                            <p>{{ address.address_line1 }}</p>
+                            {% if address.address_line2 %}
+                            <p>{{ address.address_line2 }}</p>
+                            {% endif %}
+                            <p>{{ address.city }}, {{ address.state }} {{ address.zip_code }}</p>
+                            <p>Phone: {{ address.phone }}</p>
+
+                            <form method="POST" action="{% url 'profile' %}"
+                                onsubmit="return confirm('Are you sure you want to delete this address?');"
+                                style="margin-top: 15px;">
+                                {% csrf_token %}
+                                <input type="hidden" name="form_type" value="delete_address">
+                                <input type="hidden" name="address_id" value="{{ address.id }}">
+                                <button type="submit" class="btn-text delete-btn"
+                                    style="color: #e74c3c; background: none; border: none; cursor: pointer; padding: 0; font-size: 0.9rem;">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h3>No Saved Addresses</h3>
+                        <p>Add an address for faster checkout.</p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Wishlist Tab -->
+                <div id="wishlist" class="tab-content">
+                    <h2>My Wishlist</h2>
+                    {% if wishlist_items %}
+                    <div class="wishlist-grid"
+                        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">
+                        {% for item in wishlist_items %}
+                        <div class="product-card"
+                            style="border: 1px solid #eee; border-radius: 8px; overflow: hidden; position: relative;">
+                            <div class="product-image" style="height: 200px; overflow: hidden;">
+                                {% if item.product.image %}
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}"
+                                    style="width: 100%; height: 100%; object-fit: cover;">
+                                {% else %}
+                                <div
+                                    style="width: 100%; height: 100%; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-shoe-prints" style="font-size: 2rem; color: #ccc;"></i>
+                                </div>
+                                {% endif %}
+                                <button class="btn-remove-wishlist"
+                                    onclick="toggleWishlistFromProfile('{{ item.product.id }}', this)"
+                                    style="position: absolute; top: 10px; right: 10px; background: white; border: none; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                    <i class="fas fa-times" style="color: #e74c3c;"></i>
+                                </button>
+                            </div>
+                            <div class="product-info" style="padding: 15px;">
+                                <h3 style="font-size: 1rem; margin-bottom: 5px;">{{ item.product.name }}</h3>
+                                <p class="price" style="font-weight: bold; color: #333;">${{ item.product.price }}</p>
+                                <a href="{% url 'product_detail' item.product.id %}" class="btn btn-sm btn-outline"
+                                    style="width: 100%; margin-top: 10px; text-align: center; display: block;">View
+                                    Product</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <i class="far fa-heart"></i>
+                        <h3>Your Wishlist is Empty</h3>
+                        <p>Save items you love to find them easily later.</p>
+                        <a href="{% url 'products' %}" class="btn btn-primary">Start Shopping</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/profile.js' %}"></script>
+{% endblock %}

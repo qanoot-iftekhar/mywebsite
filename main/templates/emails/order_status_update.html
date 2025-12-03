@@ -1,0 +1,51 @@
+{% extends 'emails/email_base.html' %}
+
+{% block title %}Order Status Update - {{ order.order_number }}{% endblock %}
+
+{% block content %}
+<h2>Order Status Update</h2>
+
+<p>Hi {{ order.user.first_name|default:order.full_name }},</p>
+
+<p>Great news! Your order status has been updated.</p>
+
+<div class="order-details">
+    <h3>Order Information</h3>
+    <p><strong>Order Number:</strong> {{ order.order_number }}</p>
+    <p><strong>New Status:</strong> <span style="color: #667eea; font-weight: 600;">{{ order.get_status_display
+            }}</span></p>
+    <p><strong>Updated On:</strong> {{ order.created_at|date:"F d, Y g:i A" }}</p>
+</div>
+
+{% if order.status == 'processing' %}
+<p>Your order is now being processed. We'll send you another update once it ships!</p>
+
+{% elif order.status == 'shipped' %}
+<p>Your order has been shipped and is on its way to you! 📦</p>
+<p>You should receive it within 3-5 business days.</p>
+
+{% elif order.status == 'delivered' %}
+<p>Your order has been delivered! 🎉</p>
+<p>We hope you love your new footwear. If you have a moment, we'd appreciate your feedback.</p>
+<a href="http://127.0.0.1:8000/profile/#order-history" class="button">Leave a Review</a>
+
+{% elif order.status == 'cancelled' %}
+<p>Your order has been cancelled as requested.</p>
+<p>If this was a mistake or you have questions, please contact our support team.</p>
+{% endif %}
+
+<div class="order-details">
+    <h3>Order Summary</h3>
+    {% for item in order.orderitem_set.all %}
+    <div class="order-item">
+        <p><strong>{{ item.product.name }}</strong> ({{ item.size|upper }} / {{ item.color|title }})</p>
+        <p>Quantity: {{ item.quantity }}</p>
+    </div>
+    {% endfor %}
+    <p style="margin-top: 15px;"><strong>Total:</strong> ${{ order.total_amount }}</p>
+</div>
+
+<a href="http://127.0.0.1:8000/profile/#order-history" class="button">View Order Details</a>
+
+<p style="margin-top: 30px;">Thank you for shopping with us!</p>
+{% endblock %}

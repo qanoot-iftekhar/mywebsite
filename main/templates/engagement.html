@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Engagement Rings - ARUN SHOP{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb -->
+<div class="breadcrumb">
+    <div class="container">
+        <a href="{% url 'home' %}">Home</a> / <span>Engagement Rings</span>
+    </div>
+</div>
+
+<!-- Engagement Hero Section -->
+<section class="engagement-hero">
+    <div class="container">
+        <div class="engagement-hero-content">
+            <h1>ENGAGEMENT RINGS</h1>
+            <p class="hero-subtitle">Celebrate your love story with an artisan engagement ring. Shop our collection of
+                gold, platinum, gemstone, and conflict-free diamond engagement rings for women, men and everyone looking
+                to brilliantly showcase their commitment. Easily buy high-quality engagement rings online with settings
+                for any budget and style. We'll help you make your moment.</p>
+            <div class="hero-buttons">
+                <a href="#diamonds" class="btn">SHOP DIAMONDS</a>
+                <a href="#settings" class="btn btn-outline">SHOP SETTINGS</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Links Section -->
+<section class="quick-links">
+    <div class="container">
+        <div class="links-grid">
+            <a href="#" class="link-card">
+                <div class="link-icon">💍</div>
+                <h3>Start with a Setting</h3>
+                <p>Choose your perfect ring setting</p>
+            </a>
+            <a href="#" class="link-card">
+                <div class="link-icon">💎</div>
+                <h3>Start with a Diamond</h3>
+                <p>Select your center diamond</p>
+            </a>
+            <a href="#" class="link-card">
+                <div class="link-icon">🌈</div>
+                <h3>Start with a Gemstone</h3>
+                <p>Explore colored gemstones</p>
+            </a>
+            <a href="#" class="link-card">
+                <div class="link-icon">🎨</div>
+                <h3>Creative Studio</h3>
+                <p>Design your custom ring</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Collections -->
+<section class="featured-collections">
+    <div class="container">
+        <h2>POPULAR ENGAGEMENT RING STYLES</h2>
+        <div class="collections-grid">
+            <div class="collection-card">
+                <img src="{% static 'images/solitaire-rings.jpg' %}" alt="Solitaire Rings">
+                <h3>Solitaire Rings</h3>
+                <p>Timeless and elegant</p>
+            </div>
+            <div class="collection-card">
+                <img src="{% static 'images/halo-rings.jpg' %}" alt="Halo Rings">
+                <h3>Halo Rings</h3>
+                <p>Maximum sparkle</p>
+            </div>
+            <div class="collection-card">
+                <img src="{% static 'images/vintage-rings.jpg' %}" alt="Vintage Rings">
+                <h3>Vintage Rings</h3>
+                <p>Classic craftsmanship</p>
+            </div>
+            <div class="collection-card">
+                <img src="{% static 'images/three-stone-rings.jpg' %}" alt="Three-Stone Rings">
+                <h3>Three-Stone Rings</h3>
+                <p>Past, present, future</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'emails/email_base.html' %}
+
+{% block title %}Order Confirmation - {{ order.order_number }}{% endblock %}
+
+{% block content %}
+<h2>Thank You for Your Order!</h2>
+
+<p>Hi {{ order.user.first_name|default:order.full_name }},</p>
+
+<p>Your order has been successfully placed. We're excited to get your new footwear to you!</p>
+
+<div class="order-details">
+    <h3>Order Details</h3>
+    <p><strong>Order Number:</strong> {{ order.order_number }}</p>
+    <p><strong>Order Date:</strong> {{ order.created_at|date:"F d, Y" }}</p>
+    <p><strong>Total Amount:</strong> ${{ order.total_amount }}</p>
+    <p><strong>Payment Method:</strong> {{ order.get_payment_method_display|default:order.payment_method|title }}</p>
+</div>
+
+<div class="order-details">
+    <h3>Items Ordered</h3>
+    {% for item in order.orderitem_set.all %}
+    <div class="order-item">
+        <p><strong>{{ item.product.name }}</strong></p>
+        <p>Quantity: {{ item.quantity }} | Size: {{ item.size|upper }} | Color: {{ item.color|title }}</p>
+        <p>Price: ${{ item.price }}</p>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="order-details">
+    <h3>Shipping Address</h3>
+    <p>{{ order.full_name }}<br>
+        {{ order.address }}<br>
+        {{ order.city }}, {{ order.state }} {{ order.zip_code }}<br>
+        Phone: {{ order.phone }}</p>
+</div>
+
+<p>We'll send you another email when your order ships.</p>
+
+<a href="http://127.0.0.1:8000/profile/#order-history" class="button">Track Your Order</a>
+
+<p style="margin-top: 30px;">If you have any questions about your order, please don't hesitate to contact us.</p>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'emails/email_base.html' %}
+
+{% block title %}Welcome to Footwear Store!{% endblock %}
+
+{% block content %}
+<h2>Welcome to Footwear Store! 🎉</h2>
+
+<p>Hi {{ user.first_name|default:user.username }},</p>
+
+<p>We're thrilled to have you join our community of footwear enthusiasts!</p>
+
+<p>Your account has been successfully created, and you're now ready to:</p>
+
+<ul style="line-height: 2; margin: 20px 0;">
+    <li>Browse our collection of premium footwear</li>
+    <li>Save your favorite items to your wishlist</li>
+    <li>Enjoy fast and secure checkout</li>
+    <li>Track your orders in real-time</li>
+    <li>Get exclusive updates and offers</li>
+</ul>
+
+<a href="http://127.0.0.1:8000/products/" class="button">Start Shopping</a>
+
+<div class="order-details" style="margin-top: 30px;">
+    <h3>Your Account Details</h3>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Username:</strong> {{ user.username }}</p>
+</div>
+
+<p style="margin-top: 30px;">
+    <strong>Pro Tip:</strong> Save your shipping address in your profile for faster checkout next time!
+</p>
+
+<p>Happy shopping!</p>
+
+<p style="margin-top: 20px; font-style: italic;">
+    — The Footwear Store Team
+</p>
+{% endblock %}

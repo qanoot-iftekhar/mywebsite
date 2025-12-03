@@ -1,0 +1,272 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section - Monday Sale -->
+<section class="hero-section">
+    <div class="hero-banner">
+        <img src="{% static 'images/hero-sale-banner.png' %}" alt="Monday Sale - Up to 50% Off">
+        <div class="hero-content">
+            <h1 class="hero-title"></h1>
+            <p class="hero-subtitle"></p>
+            <div class="hero-buttons">
+                <a href="{% url 'products' %}?category=men&sale=true" class="btn btn-primary">SHOP MEN</a>
+                <a href="{% url 'products' %}?category=women&sale=true" class="btn btn-primary">SHOP WOMEN</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sale Categories Grid -->
+<section class="sale-categories">
+    <div class="container">
+        <div class="categories-grid">
+            <div class="category-card fade-in">
+                <div class="category-image">
+                    <img src="{% static 'images/shoe-1.jpg' %}" alt="Sneaker Sale">
+                </div>
+                <div class="category-content">
+                    <h3>Sneaker Sale</h3>
+                    <div class="category-links">
+                        <a href="{% url 'products' %}?category=men&type=sneakers&sale=true">Men</a>
+                        <a href="{% url 'products' %}?category=women&type=sneakers&sale=true">Women</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card fade-in">
+                <div class="category-image">
+                    <img src="{% static 'images/shoe-2.jpg' %}" alt="Slip-On Sale">
+                </div>
+                <div class="category-content">
+                    <h3>Slip-On Sale</h3>
+                    <div class="category-links">
+                        <a href="{% url 'products' %}?category=men&type=slip-ons&sale=true">Men</a>
+                        <a href="{% url 'products' %}?category=women&type=slip-ons&sale=true">Women</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card fade-in">
+                <div class="category-image">
+                    <img src="{% static 'images/shoe-3.jpg' %}" alt="All-Weather Sale">
+                </div>
+                <div class="category-content">
+                    <h3>All-Weather Sale</h3>
+                    <div class="category-links">
+                        <a href="{% url 'products' %}?category=men&type=all-weather&sale=true">Men</a>
+                        <a href="{% url 'products' %}?category=women&type=all-weather&sale=true">Women</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card fade-in">
+                <div class="category-image">
+                    <img src="{% static 'images/shoe-4.jpg' %}" alt="Slipper Sale">
+                </div>
+                <div class="category-content">
+                    <h3>Slipper Sale</h3>
+                    <div class="category-links">
+                        <a href="{% url 'products' %}?category=men&type=slippers&sale=true">Shop Men</a>
+                        <a href="{% url 'products' %}?category=women&type=slippers&sale=true">Shop Women</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Product - Wool Cruiser -->
+<section class="featured-product">
+    <div class="container">
+        <div class="featured-grid">
+            <div class="featured-image fade-in">
+                <img src="{% static 'images/wool-cruiser.png' %}" alt="Wool Cruiser">
+            </div>
+            <div class="featured-content fade-in">
+                <p class="featured-label">Comfort By Nature</p>
+                <h2>Wool Cruiser</h2>
+                <p class="featured-description">New sophisticated sneaker with the comfort of merino wool.</p>
+                <div class="featured-buttons">
+                    <a href="{% url 'products' %}?category=men&search=wool+cruiser" class="btn btn-primary">SHOP MEN</a>
+                    <a href="{% url 'products' %}?category=women&search=wool+cruiser" class="btn btn-secondary">SHOP
+                        WOMEN</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sustainability Banner -->
+<section class="sustainability-section">
+    <div class="sustainability-banner">
+        <img src="{% static 'images/sustainability-banner.png' %}" alt="Sustainable Materials">
+        <div class="sustainability-content">
+            <h2>Made From Nature</h2>
+            <p>Our shoes are made with natural materials like merino wool, eucalyptus tree fiber, and sugarcane.</p>
+            <a href="#" class="btn btn-secondary">LEARN MORE</a>
+        </div>
+    </div>
+</section>
+
+<!-- Best Sellers -->
+<section class="bestsellers">
+    <div class="container">
+        <div class="section-header">
+            <h2>Customer Favorites</h2>
+            <p>Our most-loved styles, tried and tested by thousands</p>
+        </div>
+        <div class="products-grid">
+            {% for product in featured_products|slice:":4" %}
+            <div class="product-card fade-in">
+                <a href="{% url 'product_detail' product.id %}">
+                    <div class="product-image">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                        <img src="{% static 'images/shoe-1.jpg' %}" alt="{{ product.name }}">
+                        {% endif %}
+                    </div>
+                    <div class="product-info">
+                        <h3>{{ product.name }}</h3>
+                        <p class="product-category">{{ product.category|title }}</p>
+                        <p class="product-price">${{ product.price }}</p>
+                    </div>
+                </a>
+            </div>
+            {% empty %}
+            <!-- Placeholder products if no products exist -->
+            <div class="product-card fade-in">
+                <a href="{% url 'products' %}">
+                    <div class="product-image">
+                        <img src="{% static 'images/shoe-1.jpg' %}" alt="Tree Dasher 2">
+                    </div>
+                    <div class="product-info">
+                        <h3>Tree Dasher 2</h3>
+                        <p class="product-category">Men's Shoes</p>
+                        <p class="product-price">$135</p>
+                    </div>
+                </a>
+            </div>
+            <div class="product-card fade-in">
+                <a href="{% url 'products' %}">
+                    <div class="product-image">
+                        <img src="{% static 'images/shoe-2.jpg' %}" alt="Wool Runner NZ">
+                    </div>
+                    <div class="product-info">
+                        <h3>Wool Runner NZ</h3>
+                        <p class="product-category">Women's Shoes</p>
+                        <p class="product-price">$115</p>
+                    </div>
+                </a>
+            </div>
+            <div class="product-card fade-in">
+                <a href="{% url 'products' %}">
+                    <div class="product-image">
+                        <img src="{% static 'images/shoe-3.jpg' %}" alt="Tree Runner">
+                    </div>
+                    <div class="product-info">
+                        <h3>Tree Runner</h3>
+                        <p class="product-category">Men's Shoes</p>
+                        <p class="product-price">$98</p>
+                    </div>
+                </a>
+            </div>
+            <div class="product-card fade-in">
+                <a href="{% url 'products' %}">
+                    <div class="product-image">
+                        <img src="{% static 'images/shoe-4.jpg' %}" alt="Wool Cruiser">
+                    </div>
+                    <div class="product-info">
+                        <h3>Wool Cruiser</h3>
+                        <p class="product-category">Women's Shoes</p>
+                        <p class="product-price">$120</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Shop By Category -->
+<section class="shop-categories">
+    <div class="container">
+        <div class="section-header">
+            <h2>Shop By Category</h2>
+        </div>
+        <div class="categories-grid-large">
+            <div class="category-large fade-in">
+                <a href="{% url 'products' %}?category=men">
+                    <div class="category-large-image">
+                        <img src="{% static 'images/shoe-1.jpg' %}" alt="Men's Shoes">
+                    </div>
+                    <div class="category-large-content">
+                        <h3>MEN'S SHOES</h3>
+                        <p>Shop All</p>
+                    </div>
+                </a>
+            </div>
+            <div class="category-large fade-in">
+                <a href="{% url 'products' %}?category=women">
+                    <div class="category-large-image">
+                        <img src="{% static 'images/shoe-2.jpg' %}" alt="Women's Shoes">
+                    </div>
+                    <div class="category-large-content">
+                        <h3>WOMEN'S SHOES</h3>
+                        <p>Shop All</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Reviews Section -->
+<section class="reviews-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>What Our Customers Say</h2>
+        </div>
+        <div class="reviews-grid">
+            <div class="review-card fade-in">
+                <div class="review-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="review-text">"Most comfortable shoes I've ever owned. The wool material is amazing!"</p>
+                <p class="review-author">- Sarah M.</p>
+            </div>
+            <div class="review-card fade-in">
+                <div class="review-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="review-text">"Love the sustainable approach. Great quality and super comfortable."</p>
+                <p class="review-author">- John D.</p>
+            </div>
+            <div class="review-card fade-in">
+                <div class="review-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="review-text">"Perfect for everyday wear. Stylish and eco-friendly!"</p>
+                <p class="review-author">- Emily R.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

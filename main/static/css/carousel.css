@@ -1,0 +1,194 @@
+/* Shoe Carousel Slider Styles */
+.shoe-carousel-section {
+    background: #fff;
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Shoe Slider Track */
+.shoe-slider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 500px;
+    overflow: visible;
+}
+
+.shoe-track {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+}
+
+/* Individual Shoe Item - NO BACKGROUND */
+.carousel-shoe-item {
+    flex-shrink: 0;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.6s ease;
+    opacity: 0.4;
+    transform: scale(0.7);
+}
+
+.carousel-shoe-item.center {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 10;
+}
+
+.carousel-shoe-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Navigation Arrows */
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.05);
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    color: #333;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.carousel-nav:hover {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.4);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-nav.prev {
+    left: 50px;
+}
+
+.carousel-nav.next {
+    right: 50px;
+}
+
+.carousel-nav i {
+    font-size: 24px;
+}
+
+/* Product Info Below Carousel */
+.carousel-product-info {
+    text-align: center;
+    margin-top: 60px;
+    color: #222;
+}
+
+.carousel-product-name {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #000;
+}
+
+.carousel-product-price {
+    font-size: 1.8rem;
+    color: #ff6b35;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+/* Shop Buttons */
+.carousel-shop-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel-shop-btn {
+    padding: 15px 40px;
+    border: 2px solid #000;
+    background: transparent;
+    color: #000;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+}
+
+.carousel-shop-btn:hover {
+    background: #000;
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .carousel-nav.prev {
+        left: 20px;
+    }
+
+    .carousel-nav.next {
+        right: 20px;
+    }
+
+    .carousel-shoe-item {
+        width: 350px;
+        height: 350px;
+    }
+}
+
+@media (max-width: 768px) {
+    .shoe-carousel-section {
+        padding: 60px 0;
+    }
+
+    .shoe-slider {
+        height: 400px;
+    }
+
+    .carousel-shoe-item {
+        width: 280px;
+        height: 280px;
+    }
+
+    .carousel-product-name {
+        font-size: 1.8rem;
+    }
+
+    .carousel-product-price {
+        font-size: 1.4rem;
+    }
+
+    .carousel-shop-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .carousel-shop-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+}

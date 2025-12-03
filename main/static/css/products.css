@@ -1,0 +1,426 @@
+/* ===================================
+   PRODUCTS PAGE STYLES - ALLBIRDS
+   =================================== */
+
+/* Breadcrumb */
+.breadcrumb {
+    background-color: transparent;
+    padding: var(--spacing-md) 0;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.breadcrumb a {
+    color: var(--color-gray-500);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.breadcrumb a:hover {
+    color: var(--color-black);
+}
+
+.breadcrumb span {
+    margin: 0 0.5rem;
+    color: var(--color-gray-300);
+}
+
+/* Products Page */
+.products-page {
+    padding: 0 0 var(--spacing-2xl);
+    min-height: 70vh;
+}
+
+.products-header {
+    text-align: left;
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.products-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-xs);
+    letter-spacing: -0.5px;
+}
+
+.products-count {
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+}
+
+/* Products Layout */
+.products-layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 40px;
+}
+
+/* Sidebar Filters */
+.products-sidebar {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+    padding-right: 20px;
+}
+
+.filter-section {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-gray-100);
+}
+
+.filter-section:last-of-type {
+    border-bottom: none;
+}
+
+.filter-section h3 {
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    color: var(--color-black);
+}
+
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.filter-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.9375rem;
+    color: var(--color-gray-600);
+    transition: color 0.2s;
+}
+
+.filter-option:hover {
+    color: var(--color-black);
+}
+
+.filter-option input {
+    margin-right: 10px;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--color-black);
+}
+
+.btn-clear-filters {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: transparent;
+    border: 1px solid var(--color-gray-300);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-clear-filters:hover {
+    background-color: var(--color-black);
+    color: var(--color-white);
+    border-color: var(--color-black);
+}
+
+/* Products Main */
+.products-main {
+    width: 100%;
+}
+
+.products-controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1.5rem;
+}
+
+.sort-select {
+    padding: 0.5rem 2rem 0.5rem 1rem;
+    border: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: transparent;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0 center;
+}
+
+.sort-select:focus {
+    outline: none;
+}
+
+/* Product Grid */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px 20px;
+    margin-bottom: 3rem;
+}
+
+/* Product Card - Allbirds Style */
+.product-card {
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.product-image-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    /* 1:1 Aspect Ratio */
+    background-color: #f5f5f5;
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+
+.product-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.03);
+}
+
+/* Badges */
+.product-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #fff;
+    color: #212a2f;
+    padding: 4px 8px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 2;
+}
+
+/* Quick Add Button - The "button below product" */
+.quick-add-btn {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: var(--color-black);
+    padding: 12px 0;
+    text-align: center;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 1px;
+    border: none;
+    cursor: pointer;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    z-index: 3;
+}
+
+.product-image-wrapper:hover .quick-add-btn {
+    transform: translateY(0);
+}
+
+.quick-add-btn:hover {
+    background-color: var(--color-black);
+    color: var(--color-white);
+}
+
+/* Product Info */
+.product-info {
+    padding: 0 0.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-black);
+    margin-bottom: 0.25rem;
+    line-height: 1.4;
+}
+
+.product-color-variant {
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    margin-bottom: 0.5rem;
+}
+
+.product-price {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color-gray-700);
+    margin-top: auto;
+    padding-top: 0.5rem;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: var(--color-gray-400);
+    margin-left: 8px;
+}
+
+/* Color Swatches */
+.color-swatches {
+    display: flex;
+    gap: 6px;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.color-circle {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    position: relative;
+}
+
+.color-circle:hover {
+    border-color: var(--color-black);
+    transform: scale(1.1);
+}
+
+.color-count {
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+    display: flex;
+    align-items: center;
+}
+
+/* Loading & Empty States */
+.loading-spinner,
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 0;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid var(--color-black);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 4rem;
+}
+
+.pagination-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-gray-200);
+    background: transparent;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    border-color: var(--color-black);
+}
+
+.pagination-btn.active {
+    background-color: var(--color-black);
+    color: white;
+    border-color: var(--color-black);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .products-layout {
+        grid-template-columns: 200px 1fr;
+        gap: 20px;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .products-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .products-sidebar {
+        position: static;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid var(--color-gray-200);
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .products-header h1 {
+        font-size: 1.5rem;
+    }
+
+    /* On mobile, quick add button is always visible or different */
+    .quick-add-btn {
+        transform: translateY(0);
+        position: static;
+        margin-top: 10px;
+        background-color: var(--color-black);
+        color: white;
+    }
+}

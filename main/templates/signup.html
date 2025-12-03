@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Account - ARUN SHOP{% endblock %}
+
+{% block extra_css %}
+<style>
+    .auth-container {
+        max-width: 480px;
+        margin: 40px auto;
+        padding: 0;
+        background-color: transparent;
+    }
+
+    .auth-header {
+        margin-bottom: 24px;
+    }
+
+    .auth-header h2 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #2b2b2b;
+        margin-bottom: 8px;
+        font-family: 'Graphik', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    .auth-header p {
+        font-size: 14px;
+        color: #2b2b2b;
+        margin: 0;
+    }
+
+    .auth-form .form-group {
+        margin-bottom: 20px;
+    }
+
+    .auth-form label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 16px;
+        font-weight: 400;
+        color: #2b2b2b;
+    }
+
+    .auth-form input[type="text"],
+    .auth-form input[type="email"],
+    .auth-form input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #767676;
+        border-radius: 4px;
+        font-size: 16px;
+        height: 48px;
+        box-sizing: border-box;
+    }
+
+    .auth-form input:focus {
+        border-color: #2b2b2b;
+        outline: 2px solid #2b2b2b;
+        outline-offset: -2px;
+    }
+
+    .form-note {
+        font-size: 12px;
+        color: #585858;
+        margin-top: 4px;
+        line-height: 1.5;
+    }
+
+    .form-note a {
+        color: #0066cc;
+        text-decoration: none;
+    }
+
+    .checkbox-group {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 24px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+        margin-top: 4px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .checkbox-group label {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .auth-btn {
+        width: 100%;
+        padding: 12px;
+        background-color: #2b2b2b;
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        height: 48px;
+        transition: background-color 0.2s;
+    }
+
+    .auth-btn:hover {
+        background-color: #444;
+    }
+
+    .auth-footer-text {
+        margin-top: 24px;
+        font-size: 12px;
+        color: #585858;
+        line-height: 1.5;
+    }
+
+    .auth-footer-text a {
+        color: #0066cc;
+        text-decoration: none;
+    }
+
+    .feedback-section {
+        margin-top: 40px;
+        border-top: 1px solid #dedede;
+        padding-top: 20px;
+        text-align: center;
+        font-size: 14px;
+        color: #2b2b2b;
+    }
+
+    .feedback-section a {
+        color: #0066cc;
+        text-decoration: none;
+    }
+
+    .newsletter-section {
+        margin-top: 20px;
+        background-color: #f4f4f4;
+        padding: 24px;
+        text-align: center;
+    }
+
+    .newsletter-section h3 {
+        font-size: 18px;
+        margin-bottom: 4px;
+    }
+
+    .newsletter-section p {
+        font-size: 14px;
+        margin-bottom: 16px;
+        color: #585858;
+    }
+
+    .newsletter-form {
+        display: flex;
+        gap: 10px;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .newsletter-form input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #767676;
+        border-radius: 4px;
+    }
+
+    .newsletter-form button {
+        padding: 10px 20px;
+        background-color: #fff;
+        border: 1px solid #2b2b2b;
+        border-radius: 50px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .error-message {
+        color: #c41230;
+        background-color: #fce8eb;
+        padding: 12px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-header">
+        <h2>Create a new ARUN SHOP online account</h2>
+        <p>* Required information</p>
+    </div>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="error-message">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+
+    <form method="post" class="auth-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" required>
+            <p class="form-note">If you have an ARUN SHOP membership, we suggest using the same email on your
+                membership. <a href="#">See Account FAQ.</a></p>
+        </div>
+
+        <div class="form-group">
+            <label for="first_name">First name</label>
+            <input type="text" id="first_name" name="first_name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="last_name">Last name</label>
+            <input type="text" id="last_name" name="last_name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            <p class="form-note">8 – 72 characters. Be sure to define a unique password not used on other websites to
+                improve your security.</p>
+        </div>
+
+        <div class="form-group">
+            <label for="confirm_password">Confirm password</label>
+            <input type="password" id="confirm_password" name="confirm_password" required>
+        </div>
+
+        <div class="checkbox-group">
+            <input type="checkbox" id="newsletter" name="newsletter">
+            <label for="newsletter">Notify me about ARUN SHOP news, offers, and events at my email address.</label>
+        </div>
+
+        <p class="auth-footer-text">
+            When you create an account, you agree to ARUN SHOP's Terms of Use and acknowledge you have read its Privacy
+            Policy.
+        </p>
+
+        <button type="submit" class="auth-btn">Create account</button>
+    </form>
+
+    <div class="feedback-section">
+        <p>How are we doing? <a href="#">Give us feedback on this page.</a></p>
+    </div>
+
+    <div class="newsletter-section">
+        <h3>Sign up for ARUN SHOP emails</h3>
+        <p>Co-op offers, events & cool new gear</p>
+        <div class="newsletter-form">
+            <input type="email" placeholder="Email address">
+            <button>Sign me up!</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
