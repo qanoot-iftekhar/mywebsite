@@ -1,16 +1,24 @@
 """
 WSGI config for mywebsite project.
-
-It exposes the WSGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/5.0/howto/deployment/wsgi/
+Production-ready for PythonAnywhere.
 """
 
 import os
-
 from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mywebsite.settings')
 
-application = get_wsgi_application()
+# Get Django application
+django_application = get_wsgi_application()
+
+# Wrap with WhiteNoise for production
+def application(environ, start_response):
+    # Check if we're in production
+    if os.environ.get('DJANGO_DEBUG', 'True').lower() == 'false':
+        try:
+            from whitenoise import WhiteNoise
+            django_application = WhiteNoise(django_application)
+        except ImportError:
+            pass
+    
+    return django_application(environ, start_response)
