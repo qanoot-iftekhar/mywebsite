@@ -8,6 +8,8 @@ from django.contrib import messages
 from .models import Product, Category, Cart, Order, OrderItem, Address, ProductVariant, Wishlist
 from . import email_utils
 import json
+import random
+import string
 
 def home(request):
     featured_products = Product.objects.filter(featured=True)[:4]
@@ -42,6 +44,18 @@ def products(request):
     }
     return render(request, 'products.html', context)
 
+
+
+def get_cart_items(request):
+    """Helper function to get cart items for both logged-in and guest users"""
+    if request.user.is_authenticated:
+        return Cart.objects.filter(user=request.user).select_related('product', 'product__category')
+    else:
+        # Guest user - use session
+        if not request.session.session_key:
+            request.session.create()
+        session_key = request.session.session_key
+        return Cart.objects.filter(session_key=session_key).select_related('product', 'product__category')
 
 
 def product_detail(request, product_id):
@@ -82,9 +96,9 @@ def product_detail(request, product_id):
     return render(request, 'product_detail.html', context)
 
 
-@login_required
 def cart(request):
-    cart_items = Cart.objects.filter(user=request.user).select_related('product', 'product__category')
+    """Cart view - works for both logged-in and guest users"""
+    cart_items = get_cart_items(request)
     total = sum(item.product.price * item.quantity for item in cart_items)
     
     context = {
@@ -93,17 +107,30 @@ def cart(request):
     }
     return render(request, 'cart.html', context)
 
-@login_required
 def add_to_cart(request, product_id):
+    """Add to cart - works for both logged-in and guest users"""
     if request.method == 'POST':
         product = get_object_or_404(Product, id=product_id)
         quantity = int(request.POST.get('quantity', 1))
         
-        cart_item, created = Cart.objects.get_or_create(
-            user=request.user,
-            product=product,
-            defaults={'quantity': quantity}
-        )
+        if request.user.is_authenticated:
+            # Logged-in user
+            cart_item, created = Cart.objects.get_or_create(
+                user=request.user,
+                product=product,
+                defaults={'quantity': quantity}
+            )
+        else:
+            # Guest user - use session
+            if not request.session.session_key:
+                request.session.create()
+            session_key = request.session.session_key
+            
+            cart_item, created = Cart.objects.get_or_create(
+                session_key=session_key,
+                product=product,
+                defaults={'quantity': quantity}
+            )
         
         if not created:
             cart_item.quantity += quantity
@@ -113,9 +140,9 @@ def add_to_cart(request, product_id):
     
     return JsonResponse({'success': False, 'message': 'Invalid request'})
 
-@login_required
 def checkout(request):
-    cart_items = Cart.objects.filter(user=request.user)
+    """Checkout view - works for both logged-in and guest users"""
+    cart_items = get_cart_items(request)
     
     if not cart_items:
         return redirect('cart')
@@ -128,10 +155,24 @@ def checkout(request):
         last_name = request.POST.get('last_name', '')
         full_name = f"{first_name} {last_name}".strip()
         
+        # Generate order number
+        if request.user.is_authenticated:
+            order_num_prefix = f"ORD-{request.user.id}"
+            is_guest = False
+            user = request.user
+        else:
+            # Guest order
+            order_num_prefix = "ORD-GUEST"
+            is_guest = True
+            user = None
+        
+        order_number = f"{order_num_prefix}-{''.join(random.choices(string.ascii_uppercase + string.digits, k=8))}"
+        
         # Process order
         order = Order.objects.create(
-            user=request.user,
-            order_number=f"ORD-{request.user.id}-{Order.objects.count() + 1}",
+            user=user,
+            is_guest=is_guest,
+            order_number=order_number,
             total_amount=total,
             full_name=full_name,
             email=request.POST.get('email'),
@@ -171,12 +212,17 @@ def checkout(request):
         cart_items.delete()
         
         # Send order confirmation email
-        email_utils.send_order_confirmation_email(order)
+        try:
+            email_utils.send_order_confirmation_email(order)
+        except:
+            pass  # Don't fail checkout if email fails
         
         return redirect('order_success', order_id=order.id)
     
-    # Get user's saved addresses
-    addresses = Address.objects.filter(user=request.user).order_by('-is_default', '-created_at')
+    # Get user's saved addresses (only for logged-in users)
+    addresses = []
+    if request.user.is_authenticated:
+        addresses = Address.objects.filter(user=request.user).order_by('-is_default', '-created_at')
     
     context = {
         'cart_items': cart_items,

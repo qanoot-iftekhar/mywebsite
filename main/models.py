@@ -99,7 +99,8 @@ class ProductVariant(models.Model):
         return 0 < self.stock <= 5
 
 class Cart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)  # Optional for guests
+    session_key = models.CharField(max_length=40, null=True, blank=True)  # For guest carts
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     
@@ -122,7 +123,8 @@ class Order(models.Model):
         ('cancelled', 'Cancelled'),
     ]
     
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)  # Optional for guests
+    is_guest = models.BooleanField(default=False)  # Track if this is a guest order
     order_number = models.CharField(max_length=20, unique=True)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(max_length=20, choices=ORDER_STATUS, default='pending')
