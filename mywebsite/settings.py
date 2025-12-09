@@ -118,6 +118,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Login/Logout URLs - Fix for @login_required redirect
+LOGIN_URL = 'login'  # Redirect to /login/ instead of /accounts/login/
+LOGIN_REDIRECT_URL = 'home'  # After successful login
+LOGOUT_REDIRECT_URL = 'home'  # After logout
+
+# Login/Logout URLs - Fix for @login_required redirect
+LOGIN_URL = 'login'  # Redirect to /login/ instead of /accounts/login/
+LOGIN_REDIRECT_URL = 'home'  # After successful login
+LOGOUT_REDIRECT_URL = 'home'  # After logout
+
 # REST Framework Configuration
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
