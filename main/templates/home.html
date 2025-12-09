@@ -8,9 +8,9 @@
 {% block content %}
 <!-- Hero Section - Monday Sale -->
 <section class="hero-section">
-    <div class="hero-banner">
+    <div class="hero-banner parallax" data-speed="0.3">
         <img src="{% static 'images/hero-sale-banner.png' %}" alt="Monday Sale - Up to 50% Off">
-        <div class="hero-content">
+        <div class="hero-content scroll-reveal">
             <h1 class="hero-title"></h1>
             <p class="hero-subtitle"></p>
             <div class="hero-buttons">
@@ -24,8 +24,8 @@
 <!-- Sale Categories Grid -->
 <section class="sale-categories">
     <div class="container">
-        <div class="categories-grid">
-            <div class="category-card fade-in">
+        <div class="categories-grid" data-stagger data-stagger>
+            <div class="category-card scroll-reveal card-hover img-zoom-container">
                 <div class="category-image">
                     <img src="{% static 'images/shoe-1.jpg' %}" alt="Sneaker Sale">
                 </div>
@@ -38,7 +38,7 @@
                 </div>
             </div>
 
-            <div class="category-card fade-in">
+            <div class="category-card scroll-reveal card-hover img-zoom-container">
                 <div class="category-image">
                     <img src="{% static 'images/shoe-2.jpg' %}" alt="Slip-On Sale">
                 </div>
@@ -51,7 +51,7 @@
                 </div>
             </div>
 
-            <div class="category-card fade-in">
+            <div class="category-card scroll-reveal card-hover img-zoom-container">
                 <div class="category-image">
                     <img src="{% static 'images/shoe-3.jpg' %}" alt="All-Weather Sale">
                 </div>
@@ -64,7 +64,7 @@
                 </div>
             </div>
 
-            <div class="category-card fade-in">
+            <div class="category-card scroll-reveal card-hover img-zoom-container">
                 <div class="category-image">
                     <img src="{% static 'images/shoe-4.jpg' %}" alt="Slipper Sale">
                 </div>
@@ -84,10 +84,10 @@
 <section class="featured-product">
     <div class="container">
         <div class="featured-grid">
-            <div class="featured-image fade-in">
+            <div class="featured-image scroll-reveal">
                 <img src="{% static 'images/wool-cruiser.png' %}" alt="Wool Cruiser">
             </div>
-            <div class="featured-content fade-in">
+            <div class="featured-content scroll-reveal">
                 <p class="featured-label">Comfort By Nature</p>
                 <h2>Wool Cruiser</h2>
                 <p class="featured-description">New sophisticated sneaker with the comfort of merino wool.</p>
@@ -103,7 +103,7 @@
 
 <!-- Sustainability Banner -->
 <section class="sustainability-section">
-    <div class="sustainability-banner">
+    <div class="sustainability-banner scroll-reveal">
         <img src="{% static 'images/sustainability-banner.png' %}" alt="Sustainable Materials">
         <div class="sustainability-content">
             <h2>Made From Nature</h2>
@@ -116,17 +116,17 @@
 <!-- Best Sellers -->
 <section class="bestsellers">
     <div class="container">
-        <div class="section-header">
+        <div class="section-header scroll-reveal">
             <h2>Customer Favorites</h2>
             <p>Our most-loved styles, tried and tested by thousands</p>
         </div>
-        <div class="products-grid">
+        <div class="products-grid" data-stagger data-stagger>
             {% for product in featured_products|slice:":4" %}
-            <div class="product-card fade-in">
+            <div class="product-card scroll-reveal card-hover">
                 <a href="{% url 'product_detail' product.id %}">
-                    <div class="product-image">
+                    <div class="product-image img-zoom-container">
                         {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-zoom" class="img-zoom">
                         {% else %}
                         <img src="{% static 'images/shoe-1.jpg' %}" alt="{{ product.name }}">
                         {% endif %}
@@ -140,10 +140,10 @@
             </div>
             {% empty %}
             <!-- Placeholder products if no products exist -->
-            <div class="product-card fade-in">
+            <div class="product-card scroll-reveal card-hover">
                 <a href="{% url 'products' %}">
-                    <div class="product-image">
-                        <img src="{% static 'images/shoe-1.jpg' %}" alt="Tree Dasher 2">
+                    <div class="product-image img-zoom-container">
+                        <img src="{% static 'images/shoe-1.jpg' %}" alt="Tree Dasher 2" class="img-zoom" class="img-zoom">
                     </div>
                     <div class="product-info">
                         <h3>Tree Dasher 2</h3>
@@ -152,10 +152,10 @@
                     </div>
                 </a>
             </div>
-            <div class="product-card fade-in">
+            <div class="product-card scroll-reveal card-hover">
                 <a href="{% url 'products' %}">
-                    <div class="product-image">
-                        <img src="{% static 'images/shoe-2.jpg' %}" alt="Wool Runner NZ">
+                    <div class="product-image img-zoom-container">
+                        <img src="{% static 'images/shoe-2.jpg' %}" alt="Wool Runner NZ" class="img-zoom" class="img-zoom">
                     </div>
                     <div class="product-info">
                         <h3>Wool Runner NZ</h3>
@@ -164,10 +164,10 @@
                     </div>
                 </a>
             </div>
-            <div class="product-card fade-in">
+            <div class="product-card scroll-reveal card-hover">
                 <a href="{% url 'products' %}">
-                    <div class="product-image">
-                        <img src="{% static 'images/shoe-3.jpg' %}" alt="Tree Runner">
+                    <div class="product-image img-zoom-container">
+                        <img src="{% static 'images/shoe-3.jpg' %}" alt="Tree Runner" class="img-zoom" class="img-zoom">
                     </div>
                     <div class="product-info">
                         <h3>Tree Runner</h3>
@@ -176,10 +176,10 @@
                     </div>
                 </a>
             </div>
-            <div class="product-card fade-in">
+            <div class="product-card scroll-reveal card-hover">
                 <a href="{% url 'products' %}">
-                    <div class="product-image">
-                        <img src="{% static 'images/shoe-4.jpg' %}" alt="Wool Cruiser">
+                    <div class="product-image img-zoom-container">
+                        <img src="{% static 'images/shoe-4.jpg' %}" alt="Wool Cruiser" class="img-zoom" class="img-zoom">
                     </div>
                     <div class="product-info">
                         <h3>Wool Cruiser</h3>
@@ -196,11 +196,11 @@
 <!-- Shop By Category -->
 <section class="shop-categories">
     <div class="container">
-        <div class="section-header">
+        <div class="section-header scroll-reveal">
             <h2>Shop By Category</h2>
         </div>
-        <div class="categories-grid-large">
-            <div class="category-large fade-in">
+        <div class="categories-grid-large" data-stagger data-stagger>
+            <div class="category-large scroll-reveal hover-lift">
                 <a href="{% url 'products' %}?category=men">
                     <div class="category-large-image">
                         <img src="{% static 'images/shoe-1.jpg' %}" alt="Men's Shoes">
@@ -211,7 +211,7 @@
                     </div>
                 </a>
             </div>
-            <div class="category-large fade-in">
+            <div class="category-large scroll-reveal hover-lift">
                 <a href="{% url 'products' %}?category=women">
                     <div class="category-large-image">
                         <img src="{% static 'images/shoe-2.jpg' %}" alt="Women's Shoes">
@@ -229,11 +229,11 @@
 <!-- Reviews Section -->
 <section class="reviews-section">
     <div class="container">
-        <div class="section-header">
+        <div class="section-header scroll-reveal">
             <h2>What Our Customers Say</h2>
         </div>
-        <div class="reviews-grid">
-            <div class="review-card fade-in">
+        <div class="reviews-grid" data-stagger data-stagger>
+            <div class="review-card scroll-reveal">
                 <div class="review-stars">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
@@ -244,7 +244,7 @@
                 <p class="review-text">"Most comfortable shoes I've ever owned. The wool material is amazing!"</p>
                 <p class="review-author">- Sarah M.</p>
             </div>
-            <div class="review-card fade-in">
+            <div class="review-card scroll-reveal">
                 <div class="review-stars">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
@@ -255,7 +255,7 @@
                 <p class="review-text">"Love the sustainable approach. Great quality and super comfortable."</p>
                 <p class="review-author">- John D.</p>
             </div>
-            <div class="review-card fade-in">
+            <div class="review-card scroll-reveal">
                 <div class="review-stars">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
