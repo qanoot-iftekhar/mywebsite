@@ -129,8 +129,8 @@
                         <i class="fas fa-shopping-cart"></i> Add to Cart
                     </button>
                     <button class="btn btn-secondary btn-wishlist" onclick="toggleWishlist()">
-                        <i class="{% if is_in_wishlist %}fas{% else %}far{% endif %} fa-heart"
-                            style="{% if is_in_wishlist %}color: #e74c3c;{% endif %}"></i>
+                        <i class="{% if is_in_wishlist %}fas{% else %}far{% endif %} fa-heart" {% if is_in_wishlist
+                            %}style="color: #e74c3c;" {% endif %}></i>
                     </button>
                 </div>
 

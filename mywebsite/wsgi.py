@@ -13,12 +13,13 @@ django_application = get_wsgi_application()
 
 # Wrap with WhiteNoise for production
 def application(environ, start_response):
+    app = django_application
     # Check if we're in production
     if os.environ.get('DJANGO_DEBUG', 'True').lower() == 'false':
         try:
             from whitenoise import WhiteNoise
-            django_application = WhiteNoise(django_application)
+            app = WhiteNoise(app)
         except ImportError:
             pass
     
-    return django_application(environ, start_response)
+    return app(environ, start_response)
