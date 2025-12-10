@@ -1,0 +1,389 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login with OTP - PROJECT{% endblock %}
+
+{% block extra_css %}
+<style>
+    .login-otp-container {
+        max-width: 450px;
+        margin: 100px auto;
+        padding: 40px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-otp-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .login-otp-header h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+        color: #212a2f;
+    }
+
+    .login-otp-header p {
+        color: #666;
+        font-size: 14px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #212a2f;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 15px;
+        transition: border-color 0.3s;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #212a2f;
+    }
+
+    .btn-otp {
+        width: 100%;
+        padding: 14px;
+        background: #212a2f;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .btn-otp:hover {
+        background: #3498db;
+        transform: translateY(-2px);
+    }
+
+    .btn-otp:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .otp-inputs {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin: 20px 0;
+    }
+
+    .otp-input {
+        width: 50px;
+        height: 55px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 600;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        transition: border-color 0.3s;
+    }
+
+    .otp-input:focus {
+        outline: none;
+        border-color: #212a2f;
+    }
+
+    .otp-step {
+        display: none;
+    }
+
+    .otp-step.active {
+        display: block;
+        animation: fadeIn 0.3s ease-in;
+    }
+
+    .timer {
+        text-align: center;
+        margin-top: 15px;
+        color: #666;
+        font-size: 14px;
+    }
+
+    .timer.expired {
+        color: #e74c3c;
+    }
+
+    .resend-link {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        color: #3498db;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+    .message {
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .message.error {
+        background: #fee;
+        color: #c00;
+        border: 1px solid #fcc;
+    }
+
+    .message.success {
+        background: #efe;
+        color: #060;
+        border: 1px solid #cfc;
+    }
+
+    .back-to-login {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .back-to-login a {
+        color: #3498db;
+        text-decoration: none;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-otp-container scroll-reveal">
+    <div class="login-otp-header">
+        <h1>Login with OTP</h1>
+        <p>Enter your email to receive a one-time password</p>
+    </div>
+
+    <div id="messageBox"></div>
+
+    <!-- Step 1: Email Input -->
+    <div id="emailStep" class="otp-step active">
+        <form id="emailForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" class="form-control" placeholder="your@email.com" required>
+            </div>
+            <button type="submit" class="btn-otp" id="sendOtpBtn">
+                Send OTP
+            </button>
+        </form>
+    </div>
+
+    <!-- Step 2: OTP Verification -->
+    <div id="otpStep" class="otp-step">
+        <p style="text-align: center; margin-bottom: 20px;">
+            Enter the 6-digit code sent to <strong id="userEmail"></strong>
+        </p>
+
+        <form id="otpForm">
+            <div class="otp-inputs">
+                <input type="text" maxlength="1" class="otp-input" data-index="0">
+                <input type="text" maxlength="1" class="otp-input" data-index="1">
+                <input type="text" maxlength="1" class="otp-input" data-index="2">
+                <input type="text" maxlength="1" class="otp-input" data-index="3">
+                <input type="text" maxlength="1" class="otp-input" data-index="4">
+                <input type="text" maxlength="1" class="otp-input" data-index="5">
+            </div>
+
+            <div class="timer" id="timer">
+                OTP expires in <span id="countdown">5:00</span>
+            </div>
+
+            <button type="submit" class="btn-otp" id="verifyOtpBtn">
+                Verify OTP
+            </button>
+        </form>
+
+        <a class="resend-link" id="resendLink" style="display: none;">Resend OTP</a>
+    </div>
+
+    <div class="back-to-login">
+        <a href="{% url 'login' %}">← Back to password login</a>
+    </div>
+</div>
+
+<script>
+    const getCookie = (name) => {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    };
+
+    const csrftoken = getCookie('csrftoken');
+
+    const showMessage = (message, type) => {
+        const messageBox = document.getElementById('messageBox');
+        messageBox.innerHTML = `<div class="message ${type}">${message}</div>`;
+        setTimeout(() => messageBox.innerHTML = '', 5000);
+    };
+
+    let userEmail = '';
+    let timerInterval;
+
+    // Email form submission
+    document.getElementById('emailForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const btn = document.getElementById('sendOtpBtn');
+
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
+
+        try {
+            const response = await fetch('/auth/request-otp/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                body: JSON.stringify({ email })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                userEmail = email;
+                document.getElementById('userEmail').textContent = email;
+                document.getElementById('emailStep').classList.remove('active');
+                document.getElementById('otpStep').classList.add('active');
+                startTimer();
+                showMessage('OTP sent to your email!', 'success');
+            } else {
+                showMessage(data.error || 'Failed to send OTP', 'error');
+            }
+        } catch (error) {
+            showMessage('Network error. Please try again.', 'error');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Send OTP';
+        }
+    });
+
+    // OTP input handling
+    const otpInputs = document.querySelectorAll('.otp-input');
+    otpInputs.forEach((input, index) => {
+        input.addEventListener('input', (e) => {
+            if (e.target.value.length === 1 && index < 5) {
+                otpInputs[index + 1].focus();
+            }
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                otpInputs[index - 1].focus();
+            }
+        });
+    });
+
+    // OTP form submission
+    document.getElementById('otpForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const otp = Array.from(otpInputs).map(input => input.value).join('');
+
+        if (otp.length !== 6) {
+            showMessage('Please enter complete OTP', 'error');
+            return;
+        }
+
+        const btn = document.getElementById('verifyOtpBtn');
+        btn.disabled = true;
+        btn.textContent = 'Verifying...';
+
+        try {
+            const response = await fetch('/auth/verify-otp/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                body: JSON.stringify({ email: userEmail, otp })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                showMessage('Login successful! Redirecting...', 'success');
+                clearInterval(timerInterval);
+                setTimeout(() => {
+                    window.location.href = data.redirect || '/';
+                }, 1000);
+            } else {
+                showMessage(data.error || 'Invalid OTP', 'error');
+                otpInputs.forEach(input => input.value = '');
+                otpInputs[0].focus();
+            }
+        } catch (error) {
+            showMessage('Network error. Please try again.', 'error');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Verify OTP';
+        }
+    });
+
+    // Timer
+    function startTimer() {
+        let timeLeft = 300; // 5 minutes
+        const countdown = document.getElementById('countdown');
+        const timer = document.getElementById('timer');
+        const resendLink = document.getElementById('resendLink');
+
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            countdown.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                timer.classList.add('expired');
+                countdown.textContent = 'Expired';
+                resendLink.style.display = 'block';
+            }
+        }, 1000);
+    }
+
+    // Resend OTP
+    document.getElementById('resendLink').addEventListener('click', () => {
+        document.getElementById('otpStep').classList.remove('active');
+        document.getElementById('emailStep').classList.add('active');
+        otpInputs.forEach(input => input.value = '');
+        clearInterval(timerInterval);
+    });
+</script>
+{% endblock %}
